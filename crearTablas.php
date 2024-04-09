@@ -45,15 +45,15 @@
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE cocina (
-        id_receta NUMBER AUTO_INCREMENT,
+        id_receta NUMBER,
         cocina VARCHAR(50),
-        PRIMARY KEY (id_receta,cocina)
+        PRIMARY KEY (id_receta, cocina)
     );
     ";
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE dieta (
-        id_receta NUMBER AUTO_INCREMENT,
+        id_receta NUMBER,
         dieta VARCHAR(50),
         PRIMARY KEY (id_receta, dieta)
     );

@@ -1,12 +1,12 @@
 <?php
 	
 	function conexion () {
-		$servidor = "observer";
-		$bd = "db_grupo08";
+		$servidor = "dbserver";
 		$user = "grupo08";
 		$password = "fai8eXooch";
+		$bd = "db_grupo08";
 
-		$con = mysqli_connect($servidor, $user, $password, $bd);
+		$con = mysqli_connect("dbserver", "grupo08", "fai8eXooch", "db_grupo08");
 
 		if (!$con) {
 			echo "Error de conexión de base de datos <br>";
@@ -14,10 +14,6 @@
 			echo "Texto error: " . mysqli_connect_error();
 			exit;
 		}
-
-		$con->query("create table prueba( id NUMBER PRIMARY KEY);");
-
 		return $con;
 	}
-	conexion();
 ?>

@@ -8,6 +8,7 @@
 
         if ($idComida->num_rows === 0){
             $consulta = "insert into comida (query, readyInMinutes) values ($query, " . $receta['readyInMinutes'] . ")";
+            $con->query($consulta);
             $consulta = "select id from comida where query = $query and minutos = " . $receta['readyInMinutes'];
             $idComida = $con->query($consulta);
         }
@@ -29,6 +30,7 @@
         if ($idRequerimiento->num_rows === 0){
             $consulta = "insert into requerimiento (calorias, proteinas, grasas, carbohidratos) values 
                                 ($valoresMinimos[0], $valoresMinimos[1], $valoresMinimos[2], $valoresMinimos[3])";
+            $con->query($consulta);
             $consulta = "select id from requerimiento where calorias = $valoresMinimos[0] and proteinas = $valoresMinimos[1] 
                                                     and grasas = $valoresMinimos[2] and carbohidratos = $valoresMinimos[3]";
             $idRequerimiento = $con->query($consulta);
@@ -39,15 +41,29 @@
 
         if ($idComposicion->num_rows === 0){
             $consulta = "insert into composicion (colesterol, azucar) values ($valoresMinimos[4], $valoresMinimos[5])";
+            $con->query($consulta);
             $consulta = "select id from requerimiento where azucar = $valoresMinimos[5] and colesterol = $valoresMinimos[4]";
             $idComposicion = $con->query($consulta);
         }
 
-        //receta (title, image, summary (tratar(pasar a txt lo del gpt)))
-        //cocina (cuisines( array))
-        //dieta (diets(array))
+        $consulta = "insert into receta (titulo, imagen, resumen, id_requerimiento, id_composicion, id_comida) values
+                                        (" . $receta['title'] . "," . $receta['image'] . "," . $receta['summary'] 
+                                           . "$id_requerimiento, $id_composicion, $id_comida)";
+        $idComposicion = $con->query($consulta);
 
+        $consulta = "select id from receta where titulo = " . $receta['title'] . " and imagen = " . $receta['image'] 
+                                                           . " and resumen = " . $receta['summary'];
+        $idReceta = $con->query($consulta);
 
+        foreach ($receta['cuisines'] as $cuisine) {
+            $consulta = "insert into cocina (id_receta, cocina) values ($idReceta, $cuisine)";
+            $con->query($consulta);
+        }
+
+        foreach ($receta['diets'] as $diet) {
+            $consulta = "insert into dieta (id_receta, dieta) values ($idReceta, $diet)";
+            $con->query($consulta);
+        }
     }
 
     $con = conexion();

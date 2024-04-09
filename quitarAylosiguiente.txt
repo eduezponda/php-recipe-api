@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eliminar texto HTML después del primer enlace</title>
+</head>
+<body>
+
+<div id="miDiv">
+    Esto es un texto de ejemplo con un <a href="#">enlace</a>. A partir de este enlace, todo se eliminará incluyendo el enlace.
+</div>
+
+<script>
+    // Encuentra el primer enlace dentro de #miDiv
+    var primerEnlace = document.querySelector('#miDiv a');
+
+    // Si se encontró un enlace
+    if (primerEnlace) {
+        // Elimina todo lo que sigue al primer enlace incluyendo el enlace mismo
+        var nodoPadre = primerEnlace.parentNode;
+        while (nodoPadre.childNodes.length > 1) {
+            nodoPadre.removeChild(nodoPadre.lastChild);
+        }
+        nodoPadre.removeChild(primerEnlace);
+    }
+</script>
+
+</body>
+</html>
