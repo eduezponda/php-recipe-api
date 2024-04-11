@@ -40,8 +40,10 @@
             $idRequerimiento = $con->query($consulta);
         }
 
-        $consulta = "select id from composicion where azucar = $valoresMinimos[5] and colesterol = $valoresMinimos[4]";
-        $idComposicion = $con->query($consulta);
+        $stmt = $con->prepare("select id from composicion where azucar = ? and colesterol = ?");
+        $stmt->bind_param("ss", $valoresMinimos[5], $valoresMinimos[4]);
+        $stmt->execute();
+        $idComposicion = $stmt->get_result();
 
         if ($idComposicion->num_rows === 0){
             $consulta = "insert into composicion (colesterol, azucar) values ($valoresMinimos[4], $valoresMinimos[5])";
@@ -79,37 +81,18 @@
         'beef', 'pork', 'soup', 'spinach', 'potato', 'calamari', 'fajitas', 'toast', 'burrito', 'biscuit',
         'cake', 'pie'
     ];
-    /*foreach ($comidas as $comida) {
-        $data = json_decode(getRecipes($comida), true);
 
-        if(isset($data['results'])) {
-            foreach($data['results'] as $receta) {
-                insertarReceta($receta, $con, $comida);
-            }
-        } else {
-            echo "No results found.";
-        }
-    }*/
     $data = json_decode(getRecipes($comidas[0]), true);
 
-        if(isset($data['results'])) {
-            foreach($data['results'] as $receta) {
-                insertarReceta($receta, $con, $comidas[0]);
-            }
-        } else {
-            echo "No results found.";
+    if(isset($data['results'])) 
+    {
+        foreach($data['results'] as $receta) 
+        {
+            insertarReceta($receta, $con, $comidas[0]);
         }
-    /*foreach ($comidas as $comida) {
-        $response = getRecipes($comida);
-        if ($i == 0){
-            echo $response;
-            $i = 1;
-        }
-
-        foreach($response as $receta){
-            echo $receta;
-            insertarReceta($receta, $con, $comida);
-        }
-    }*/
-
+    } 
+    else 
+    {
+        echo "No results found.";
+    }
 ?>
