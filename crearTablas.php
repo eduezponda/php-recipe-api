@@ -3,40 +3,43 @@
 
     $con = conexion();
 
+    $consulta = "DROP TABLE IF EXISTS receta, requerimiento, composicion, comida, cocina, dieta;";
+    $resultado = $con->query($consulta);
+
     $consulta = "CREATE TABLE comida (
-        id NUMBER AUTO_INCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         query VARCHAR(50),
-        minutos NUMBER
+        minutos INT
     );
     ";
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE requerimiento (
-        id NUMBER AUTO_INCREMENT PRIMARY KEY,
-        carbohidratos NUMBER,
-        proteinas NUMBER,
-        grasas NUMBER,
-        calorias NUMBER
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        carbohidratos INT,
+        proteinas INT,
+        grasas INT,
+        calorias INT
     );
     ";
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE composicion (
-        id NUMBER AUTO_INCREMENT PRIMARY KEY,
-        colesterol NUMBER,
-        azucar NUMBER,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        colesterol INT,
+        azucar INT
     );
     ";
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE receta (
-        id NUMBER AUTO_INCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         titulo VARCHAR(50) NOT NULL,
         imagen VARCHAR(255),
         resumen VARCHAR(10000),
-        id_requerimiento NUMBER,
-        id_composicion NUMBER,
-        id_comida NUMBER,
+        id_requerimiento INT,
+        id_composicion INT,
+        id_comida INT,
         FOREIGN KEY (id_requerimiento) REFERENCES requerimiento(id),
         FOREIGN KEY (id_composicion) REFERENCES composicion(id),
         FOREIGN KEY (id_comida) REFERENCES comida(id)
@@ -45,7 +48,7 @@
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE cocina (
-        id_receta NUMBER,
+        id_receta INT,
         cocina VARCHAR(50),
         PRIMARY KEY (id_receta, cocina)
     );
@@ -53,7 +56,7 @@
     $resultado = $con->query($consulta);
 
     $consulta = "CREATE TABLE dieta (
-        id_receta NUMBER,
+        id_receta INT,
         dieta VARCHAR(50),
         PRIMARY KEY (id_receta, dieta)
     );
