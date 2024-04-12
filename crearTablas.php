@@ -34,7 +34,7 @@
 
     $consulta = "CREATE TABLE receta (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        titulo VARCHAR(50) NOT NULL,
+        titulo VARCHAR(100) NOT NULL,
         imagen VARCHAR(255),
         resumen VARCHAR(10000),
         id_requerimiento INT,
@@ -62,4 +62,6 @@
     );
     ";
     $resultado = $con->query($consulta);
+
+    echo 'Tablas creadas correctamente';
 ?>

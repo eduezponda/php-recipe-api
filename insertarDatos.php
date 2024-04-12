@@ -4,20 +4,27 @@
 
     function insertarReceta($receta, $con, $query){
         $stmt = $con->prepare( "select id from comida where query = ? and minutos = ?");
-        $stmt->bind_param("ss", $query, $receta['readyInMinutes']);
+        $stmt->bind_param("si", $query, $receta['readyInMinutes']);
         $stmt->execute();
         $idComida = $stmt->get_result();
 
         if($idComida->num_rows === 0) {
             $consulta = "insert into comida (query, minutos) values ('$query', " . $receta['readyInMinutes'] . ")";
+            if (!$con->query($consulta)) {
+                echo "Error al ejecutar la inserción de comida: " . $con->error . "<br>";
+            }
             $con->query($consulta);
-            $consulta = "select id from comida where query = $query and minutos = " . $receta['readyInMinutes'];
-            $idComida = $con->query($consulta);
+            $idComida = $con->insert_id;
+        }
+        else {
+            $row = $idComida->fetch_assoc();
+            $idComida = $row['id'];
         }
 
         $rangos = [25, 5, 5, 5, 10, 1];
-        $valores = [$receta['nutrition'][0]['amount'], $receta['nutrition'][1]['amount'], $receta['nutrition'][2]['amount'], 
-                    $receta['nutrition'][3]['amount'], $receta['nutrition'][8]['amount'], $receta['nutrition'][33]['amount'],
+        $valores = [$receta['nutrition']['nutrients'][0]['amount'], $receta['nutrition']['nutrients'][1]['amount'],
+                    $receta['nutrition']['nutrients'][2]['amount'], $receta['nutrition']['nutrients'][3]['amount'],
+                    $receta['nutrition']['nutrients'][4]['amount'], $receta['nutrition']['nutrients'][5]['amount'],
         ];
         $valoresMinimos = [0, 0, 0, 0, 0, 0];
 
@@ -27,48 +34,61 @@
 
         $stmt = $con->prepare("select id from requerimiento where calorias = ? and proteinas = ? 
         and grasas = ? and carbohidratos = ?");
-        $stmt->bind_param("ssss", $valoresMinimos[0], $valoresMinimos[1], $valoresMinimos[2], $valoresMinimos[3]);
+        $stmt->bind_param("dddd", $valoresMinimos[0], $valoresMinimos[1], $valoresMinimos[2], $valoresMinimos[3]);
         $stmt->execute();
         $idRequerimiento = $stmt->get_result();
 
         if ($idRequerimiento->num_rows === 0){
             $consulta = "insert into requerimiento (calorias, proteinas, grasas, carbohidratos) values 
                                 ($valoresMinimos[0], $valoresMinimos[1], $valoresMinimos[2], $valoresMinimos[3])";
-            $con->query($consulta);
-            $consulta = "select id from requerimiento where calorias = $valoresMinimos[0] and proteinas = $valoresMinimos[1] 
-                                                    and grasas = $valoresMinimos[2] and carbohidratos = $valoresMinimos[3]";
-            $idRequerimiento = $con->query($consulta);
+            if (!$con->query($consulta)) {
+                echo "Error al ejecutar la inserción de requerimiento: " . $con->error . "<br>";
+            }
+            $idRequerimiento = $con->insert_id;
+        }
+        else {
+            $row = $idRequerimiento->fetch_assoc();
+            $idRequerimiento = $row['id'];
         }
 
         $stmt = $con->prepare("select id from composicion where azucar = ? and colesterol = ?");
-        $stmt->bind_param("ss", $valoresMinimos[5], $valoresMinimos[4]);
+        $stmt->bind_param("dd", $valoresMinimos[5], $valoresMinimos[4]);
         $stmt->execute();
         $idComposicion = $stmt->get_result();
 
         if ($idComposicion->num_rows === 0){
             $consulta = "insert into composicion (colesterol, azucar) values ($valoresMinimos[4], $valoresMinimos[5])";
-            $con->query($consulta);
-            $consulta = "select id from composicion where azucar = $valoresMinimos[5] and colesterol = $valoresMinimos[4]";
-            $idComposicion = $con->query($consulta);
+            if (!$con->query($consulta)) {
+                echo "Error al ejecutar la inserción de composición: " . $con->error . "<br>";
+            }
+            $idComposicion = $con->insert_id;
+        }
+        else {
+            $row = $idComposicion->fetch_assoc();
+            $idComposicion = $row['id'];
+        }
+        
+        $consulta = "insert into receta (titulo, imagen, resumen, id_requerimiento, id_composicion, id_comida) values
+                                        ('" . str_replace("'", " ", $receta['title']) . "','" . $receta['image'] . "','" 
+                                        . str_replace("'", " ", $receta['summary']) . "',$idRequerimiento, $idComposicion, $idComida)";
+        if (!$con->query($consulta)) {
+            echo "Error al ejecutar la inserción de receta: " . $con->error . "<br>";
         }
 
-        $consulta = "insert into receta (titulo, imagen, resumen, id_requerimiento, id_composicion, id_comida) values
-                                        ('" . $receta['title'] . "','" . $receta['image'] . "','" . $receta['summary'] 
-                                           . "',$id_requerimiento, $id_composicion, $id_comida)";
-        $idComposicion = $con->query($consulta);
-
-        $consulta = "select id from receta where titulo = '" . $receta['title'] . "' and imagen = '" . $receta['image'] 
-                                                           . "' and resumen = '" . $receta['summary'] . "'";
-        $idReceta = $con->query($consulta);
+        $idReceta = $con->insert_id;
 
         foreach ($receta['cuisines'] as $cuisine) {
             $consulta = "insert into cocina (id_receta, cocina) values ($idReceta, '$cuisine')";
-            $con->query($consulta);
+            if (!$con->query($consulta)) {
+                echo "Error al ejecutar la inserción de cocina: " . $con->error . "<br>";
+            }
         }
 
         foreach ($receta['diets'] as $diet) {
             $consulta = "insert into dieta (id_receta, dieta) values ($idReceta, '$diet')";
-            $con->query($consulta);
+            if (!$con->query($consulta)) {
+                echo "Error al ejecutar la inserción de dieta: " . $con->error . "<br>";
+            }
         }
     }
 
@@ -82,17 +102,23 @@
         'cake', 'pie'
     ];
 
-    $data = json_decode(getRecipes($comidas[0]), true);
+    foreach($comidas as $comida) {
+        $data = json_decode(getRecipes($comida), true);
 
-    if(isset($data['results'])) 
-    {
-        foreach($data['results'] as $receta) 
+        if(isset($data['results'])) 
         {
-            insertarReceta($receta, $con, $comidas[0]);
+            foreach($data['results'] as $receta) 
+            {
+                insertarReceta($receta, $con, $comida);
+            }
+        } 
+        else 
+        {
+            echo "No results found.";
         }
-    } 
-    else 
-    {
-        echo "No results found.";
+    }
+
+    if (isset($con)) {
+        $con->close();
     }
 ?>

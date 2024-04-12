@@ -4,7 +4,7 @@
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=" . urlencode($query) . "&addRecipeInformation=true&number=10",
+            CURLOPT_URL => "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=" . urlencode($query) . "&addRecipeInformation=true&minCarbs=1&minProtein=1&minCalories=1&minFat=1&minCholesterol=1&minSugar=1&number=10",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -26,7 +26,6 @@
             echo "cURL Error #:" . $err;
             return -1;
         } else {
-            echo $response;
             return $response;
         }
     }
