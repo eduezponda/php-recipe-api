@@ -67,10 +67,18 @@
             $row = $idComposicion->fetch_assoc();
             $idComposicion = $row['id'];
         }
+
+        
+
+        $summaryWithoutElementsB = preg_replace_callback('/<b>(.*?)<\/b>/', function($matches) {
+            return $matches[1];
+        }, $receta['summary']);
+        
+        $summaryWithoutElementsBandA = preg_replace('/<a.*?>(.*?)<\/a>/', '$1', $summaryWithoutElementsB);
         
         $consulta = "insert into receta (titulo, imagen, resumen, id_requerimiento, id_composicion, id_comida) values
                                         ('" . str_replace("'", " ", $receta['title']) . "','" . $receta['image'] . "','" 
-                                        . str_replace("'", " ", $receta['summary']) . "',$idRequerimiento, $idComposicion, $idComida)";
+                                        . str_replace("'", " ", $summaryWithoutElementsBandA) . "',$idRequerimiento, $idComposicion, $idComida)";
         if (!$con->query($consulta)) {
             echo "Error al ejecutar la inserción de receta: " . $con->error . "<br>";
         }
@@ -117,6 +125,8 @@
             echo "No results found.";
         }
     }
+
+    echo "Datos insertados en las tablas correctamente";
 
     if (isset($con)) {
         $con->close();
