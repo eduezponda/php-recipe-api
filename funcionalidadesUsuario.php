@@ -1,6 +1,7 @@
 <?php
-    include 'borrarDatosTablasAPI.php';
-    include 'insertarDatos.php';
+    include_once 'basededatos/borrarDatosTablasAPI.php';
+    include_once 'basededatos/insertarDatos.php';
+    include_once 'MYPDF.php';
 
     function eliminarUsuario($usuario){
         $con = conexion();
@@ -115,4 +116,63 @@
             $con->close();
         }
     }
+
+    function verInformacionUsuario($nombreUsuario){
+        $con = conexion();
+        
+        $consulta = "SELECT u.correo, i.idioma 
+             FROM final_usuario u 
+             INNER JOIN final_idioma i ON u.claveIdioma = i.clave
+             WHERE u.nombreUsuario = '$nombreUsuario'";
+
+        $resultado = $con->query($consulta);
+        $fila = $resultado->fetch_assoc();
+
+        $correo = $fila['correo'];
+        $idioma = $fila['idioma'];
+
+        $con->close();
+
+        return array($correo, $idioma);
+    }
+
+    function exportarInformacionPDF($nombreUsuario){
+        /*$informacionUsuario = verInformacionUsuario($nombreUsuario);
+
+        if ($informacionUsuario !== false) {
+            list($correo, $idioma) = $informacionUsuario;
+        }*/
+
+        $correo = "hamza@machete.com";
+        $idioma = "marroqui";
+
+        $pdf = new MYPDF($nombreUsuario, $correo, $idioma);
+
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor($nombreUsuario);
+        $pdf->SetTitle('Mazapan Corporate Info');
+        $pdf->SetSubject('Detalles del Usuario');
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        $pdf->AddPage();
+
+        /*
+        $pdf->SetFont('helvetica', '', 12);
+
+        $contenido = '<p><strong>Nombre de usuario:</strong> ' . "hamza" . '</p>';
+        $contenido .= '<p><strong>Correo:</strong> ' . "hamza@machete.com" . '</p>';
+        $contenido .= '<p><strong>Idioma:</strong> ' . "marroqui" . '</p>';
+        $pdf->writeHTML($contenido, true, false, true, false, '');
+        */
+
+        $pdf->Output('mazapanCorporateInfo.pdf', 'I');
+
+    }
+
+    exportarInformacionPDF("hamza");
 ?>
