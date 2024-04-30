@@ -108,7 +108,7 @@
     function obtenerUltimaFechaDeActualizacion(){
         $con = conexion();
 
-        $sql = "SELECT MAX(fecha) AS ultima_fecha FROM final_fechaActualizacion";
+        $consulta = "SELECT MAX(fecha) AS ultima_fecha FROM final_fechaActualizacion";
         $resultado = $con->query($consulta);
 
         if ($row = $resultado->fetch_assoc()) {
