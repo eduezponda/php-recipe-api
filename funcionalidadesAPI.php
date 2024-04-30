@@ -118,4 +118,41 @@
         $con->close();
     }
 
+    function recogerDatosGraficasAPI (){
+
+        $con = conexion();
+
+        $consulta = "SELECT dieta, COUNT(id_receta) AS cantidad_recetas FROM final_dieta GROUP BY dieta";
+        $resultado = $con->query($consulta);
+        $datosDietas = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $datosDietas[] = $fila;
+        }
+
+        $consulta = "SELECT cocina, COUNT(id_receta) AS cantidad_recetas FROM final_cocina GROUP BY cocina";
+        $resultado = $con->query($consulta);
+        $datosCocinas = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $datosCocinas[] = $fila;
+        }
+
+        $consulta = "SELECT c.minutos, r.calorias
+                    FROM final_comida c
+                    JOIN final_receta rec ON c.id = rec.id_comida
+                    JOIN final_requerimiento r ON rec.id_requerimiento = r.id
+                    ORDER BY c.minutos";
+        $resultado = $con->query($consulta);
+        $datosMinutos = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $datosMinutos[] = $fila;
+        }
+
+        $con->close();
+
+        return [
+            'dietas' => $datosDietas,
+            'cocinas' => $datosCocinas,
+            'minutos' => $datosMinutos
+        ];
+    }
 ?>
