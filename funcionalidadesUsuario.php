@@ -1,6 +1,6 @@
 <?php
-    include_once 'basededatos/borrarDatosTablasAPI.php';
-    include_once 'basededatos/insertarDatos.php';
+    include_once 'basededatosAPI/borrarDatosTablasAPI.php';
+    include_once 'basededatosAPI/insertarDatos.php';
     include_once 'MYPDF.php';
 
     function eliminarUsuario($usuario){
