@@ -10,46 +10,46 @@
         ";
         $resultado = $con->query($consulta);
 
+        $caloriasMedias = [];
         if ($row = $resultado->fetch_assoc()) {
-            echo "Calorías Medias de las recetas: " . $row['Calorias_Medias'] . "<br>";
+            $caloriasMedias[] = $row;
         }
 
         $consulta = "SELECT DISTINCT cocina FROM final_cocina;
         ";
         $resultado = $con->query($consulta);
 
-        echo "Tipos de cocina: ";
+        $tiposCocina = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo $row['cocina'] . ", ";
+            $tiposCocina[] = $row;
         }
-        echo "<br>";
 
         $consulta = "SELECT DISTINCT dieta FROM final_dieta;
         ";
         $resultado = $con->query($consulta);
 
-        echo "Tipos de dieta: ";
+        $tiposDieta = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo $row['dieta'] . ", ";
+            $tiposDieta[] = $row;
         }
-        echo "<br>";
 
         $consulta = "SELECT DISTINCT query FROM final_comida WHERE minutos BETWEEN 10 AND 30;
         ";
         $resultado = $con->query($consulta);
 
-        echo "Comidas de 10 a 30 minutos: ";
+        $comidasConDuracionEntre10y30Minutos = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo $row['query'] . ", ";
+            $comidasConDuracionEntre10y30Minutos[] = $row;
         }
-        echo "<br>";
 
         $consulta = "SELECT CAST(AVG(minutos) AS INT) AS Duracion_Media FROM final_comida;
         ";
         $resultado = $con->query($consulta);
 
+        $duracionMediaComidas = [];
+
         if ($row = $resultado->fetch_assoc()) {
-            echo "Duración media de las comidas: " . $row['Duracion_Media'] . "<br>";
+            $duracionMediaComidas[] = $row;
         }
 
         $consulta = "SELECT ingrediente, COUNT(*) AS Cantidad
@@ -59,9 +59,9 @@
         ";
         $resultado = $con->query($consulta);
 
-        echo "Ingredientes más utilizados:<br>";
+        $cantidadVecesIngredientes = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo $row['ingrediente'] . ": " . $row['Cantidad'] . " veces<br>";
+            $cantidadVecesIngredientes[] = $row;
         }
 
         $consulta = "SELECT c.cocina,
@@ -78,9 +78,9 @@
         ";
         $resultado = $con->query($consulta);
 
-        echo "Valor nutricional medio por tipo de cocina:<br>";
+        $valorNutricionalyDuracionMediaPorCocina = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo "Cocina: " . $row['cocina'] . ", Duración Media: " . $row['Duracion_Media'] . " minutos, Carbohidratos: " . $row['Media_Carbohidratos'] . ", Proteínas: " . $row['Media_Proteinas'] . ", Grasas: " . $row['Media_Grasas'] . ", Calorías: " . $row['Media_Calorias'] . "<br>";
+            $valorNutricionalyDuracionMediaPorCocina[] = $row;
         }
 
         $consulta = "SELECT d.dieta,
@@ -97,25 +97,42 @@
         ";
         $resultado = $con->query($consulta);
 
-        echo "Valor nutricional medio por tipo de dieta:<br>";
+        $valorNutricionalyDuracionMediaPorDieta = [];
         while ($row = $resultado->fetch_assoc()) {
-            echo "Dieta: " . $row['dieta'] . ", Duración Media: " . $row['Duracion_Media'] . " minutos, Carbohidratos: " . $row['Media_Carbohidratos'] . ", Proteínas: " . $row['Media_Proteinas'] . ", Grasas: " . $row['Media_Grasas'] . ", Calorías: " . $row['Media_Calorias'] . "<br>";
+            $valorNutricionalyDuracionMediaPorDieta[] = $row;
         }
 
         $con->close();
+
+        return [
+            'caloriasMedias' => $caloriasMedias,
+            'tiposCocina' => $tiposCocina,
+            'tiposDieta' => $tiposDieta,
+            'comidasConDuracionEntre10y30Minutos' => $comidasConDuracionEntre10y30Minutos,
+            'duracionMediaComidas' => $duracionMediaComidas,
+            'cantidadVecesIngredientes' => $cantidadVecesIngredientes,
+            'valorNutricionalyDuracionMediaPorCocina' => $valorNutricionalyDuracionMediaPorCocina,
+            'valorNutricionalyDuracionMediaPorDieta' => $valorNutricionalyDuracionMediaPorDieta
+        ];
     }
 
     function obtenerUltimaFechaDeActualizacion(){
         $con = conexion();
 
-        $sql = "SELECT MAX(fecha) AS ultima_fecha FROM final_fechaActualizacion";
+        $consulta = "SELECT MAX(fecha) AS ultima_fecha FROM final_fechaActualizacion";
         $resultado = $con->query($consulta);
 
+        $ultimaFechaActualizacion = [];
+
         if ($row = $resultado->fetch_assoc()) {
-            echo "Ultima fecha de actualización: " . $row['ultima_fecha'] . "<br>";
+            $ultimaFechaActualizacion[] = $row;
         }
 
         $con->close();
+
+        return [
+            'ultimaFechaActualizacion' => $ultimaFechaActualizacion
+        ];
     }
 
     function recogerDatosGraficasAPI (){
