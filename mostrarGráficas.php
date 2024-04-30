@@ -76,10 +76,10 @@
             var graficoMinutos = new Chart(ctxMinutos, {
                 type: 'line',
                 data: {
-                    labels: datos.map(dato => `${dato.minutos} min`),
+                    labels: datosMinutos.map(c => `${c.minutos} min`),
                     datasets: [{
                         label: 'Calorías por Tiempo de Preparación',
-                        data: datos.map(dato => dato.calorias),
+                        data: datosMinutos.map(r => r.calorias),
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
