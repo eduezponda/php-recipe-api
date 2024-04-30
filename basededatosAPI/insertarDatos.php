@@ -120,7 +120,7 @@
         }
     }
 
-    $con = conexion();
+    /*$con = conexion();
 
     $comidas = [
         'pasta', 'rice', 'chicken', 'vegetable', 'salad', 'pizza', 'burguer', 'tacos', 'sushi',
@@ -150,5 +150,5 @@
 
     if (isset($con)) {
         $con->close();
-    }
+    }*/
 ?>

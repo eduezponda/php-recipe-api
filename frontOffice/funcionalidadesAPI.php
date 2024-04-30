@@ -1,7 +1,5 @@
 <?php
-    include_once 'basededatosAPI/borrarDatosTablasAPI.php';
-    include_once 'basededatosAPI/insertarDatos.php';
-    include_once 'MYPDF.php';
+    include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
 
     function verResumenDatosAPI (){
         $con = conexion();
@@ -135,7 +133,7 @@
         ];
     }
 
-    function recogerDatosGraficasAPI (){
+    function recogerDatosGraficasAPI ($requerimiento){
 
         $con = conexion();
 
@@ -153,7 +151,7 @@
             $datosCocinas[] = $fila;
         }
 
-        $consulta = "SELECT c.minutos, r.calorias
+        $consulta = "SELECT c.minutos, r.${requerimiento} 
                     FROM final_comida c
                     JOIN final_receta rec ON c.id = rec.id_comida
                     JOIN final_requerimiento r ON rec.id_requerimiento = r.id

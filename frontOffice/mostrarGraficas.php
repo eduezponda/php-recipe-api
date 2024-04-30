@@ -1,7 +1,7 @@
 <?php
     include_once 'funcionalidadesAPI.php';
-
-    $datos = recogerDatosGraficasAPI();
+    $requerimiento = "grasas";
+    $datos = recogerDatosGraficasAPI($requerimiento);
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +79,7 @@
                     labels: datosMinutos.map(c => `${c.minutos} min`),
                     datasets: [{
                         label: 'Calorías por Tiempo de Preparación',
-                        data: datosMinutos.map(r => r.calorias),
+                        data: datosMinutos.map(r => r.<?php echo $requerimiento; ?>),
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
