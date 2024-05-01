@@ -1342,9 +1342,16 @@ footer.footer-no-gap {
   margin-top: 0px;
 }
 
+.footer-content {
+  display: flex;        /* Establece el layout de los elementos hijos en línea */
+  align-items: center;  /* Centra los elementos verticalmente */
+  gap: 30px;            /* Espacio entre la imagen y el texto */
+  justify-content: center; 
+}
+
 footer {
   margin-top: 150px;
-  background-color: #1e1e1e;
+  background-color: #1e1e1eee;
   min-height: 100px;
 }
 
