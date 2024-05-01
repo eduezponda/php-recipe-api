@@ -1,6 +1,7 @@
 <?php
     include_once 'basededatos.php';
     include_once '/var/www/html/Trabajo Final/recipeAPI/recipeFoodApi.php';
+    include_once '/var/www/html/Trabajo Final/textTranslatorAPI/textTranslatorAPI.php';
 
     function insertarReceta($receta, $con, $query){
         $stmt = $con->prepare( "select id from final_comida where query = ? and minutos = ?");

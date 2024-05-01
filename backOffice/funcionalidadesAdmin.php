@@ -1,5 +1,6 @@
 <?php
     include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
+	include_once '/var/www/html/Trabajo Final/basededatosAPI/borrarDatosTablasAPI.php';
     
 	function eliminarUsuario($usuario){
 		$con = conexion();
@@ -62,7 +63,7 @@
 		$stmt->close();
 	}
 	
-	    function borrarDatosAPI(){
+	function borrarDatosAPI(){
         borrarDatos();
     }
 
@@ -94,6 +95,17 @@
             }
         }
 
+		$languages = json_decode(getTranslatorLanguages(), true);
+    
+		foreach($languages['translation'] as $key => $idioma) {
+
+			$nombre = $idioma['name'];
+
+			$consulta = "insert into final_idioma (idioma, clave) values ('$nombre', '$key')";
+			if (!$con->query($consulta)) {
+				echo "Error al ejecutar la inserción de idioma: " . $con->error . "<br>";
+			}
+		}
 
         date_default_timezone_set('Europe/Madrid');
         $fechaActual = new DateTime();

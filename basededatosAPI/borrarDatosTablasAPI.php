@@ -3,7 +3,7 @@
    
     function borrarDatos(){
         $con = conexion();
-        $tablas = array("final_cocina", "final_dieta", "final_receta", "final_requerimiento", "final_composicion", "final_comida");
+        $tablas = array("final_cocina", "final_dieta", "final_receta", "final_requerimiento", "final_composicion", "final_comida", "final_idioma");
 
         foreach ($tablas as $tabla) {
             $consulta = "DELETE FROM $tabla";
