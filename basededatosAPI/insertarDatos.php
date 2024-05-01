@@ -68,8 +68,6 @@
             $idComposicion = $row['id'];
         }
 
-        
-
         $summaryWithoutElementsB = preg_replace_callback('/<b>(.*?)<\/b>/', function($matches) {
             return $matches[1];
         }, $receta['summary']);

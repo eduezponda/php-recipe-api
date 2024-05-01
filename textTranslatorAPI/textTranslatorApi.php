@@ -1,28 +1,67 @@
 <?php
 
-function getTranslateText($target_language, $title) {
-    $request = new HttpRequest();
-    $request->setUrl('https://text-translator2.p.rapidapi.com/translate');
-    $request->setMethod(HTTP_METH_POST);
+function getTranslateText($target_language, $text) {
+    $curl = curl_init();
 
-    $request->setHeaders([
-        'content-type' => 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key' => 'SIGN-UP-FOR-KEY',
-        'X-RapidAPI-Host' => 'text-translator2.p.rapidapi.com'
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=" . urlencode($target_language) . "&api-version=3.0&profanityAction=NoAction&textType=plain",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode([
+            [
+                    'Text' => $text
+            ]
+        ]),
+        CURLOPT_HTTPHEADER => [
+            "X-RapidAPI-Host: microsoft-translator-text.p.rapidapi.com",
+            "X-RapidAPI-Key: 57cde7fd1fmsha9c569f721e685bp1927abjsne3aad9677af0",
+            "content-type: application/json"
+        ],
     ]);
 
-    $request->setContentType('application/x-www-form-urlencoded');
-    $request->setPostFields([
-        'source_language' => 'en',
-        'target_language' => $target_language,
-        'text' => $title
-    ]);
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
 
-    try {
-        $response = $request->send();
-        return $response->getBody();
-    } catch (HttpException $ex) {
-        return $ex;
+    curl_close($curl);
+
+    if ($err) {
+        return "cURL Error #:" . $err;
     }
+
+    return $response;
+}
+
+function getTranslatorLanguages() {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://microsoft-translator-text.p.rapidapi.com/languages?api-version=3.0",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => [
+            "Accept-Language: en",
+            "X-RapidAPI-Host: microsoft-translator-text.p.rapidapi.com",
+            "X-RapidAPI-Key: 57cde7fd1fmsha9c569f721e685bp1927abjsne3aad9677af0"
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        return "cURL Error #:" . $err;
+    }
+    
+    return $response;
 }
 ?>
