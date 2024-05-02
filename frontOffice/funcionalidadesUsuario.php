@@ -94,5 +94,78 @@
         */
 
         $pdf->Output('mazapanCorporateInfo.pdf', 'I');
-    }    
+    }
+    
+    function signUp($nombreUsuario, $correo, $language, $password){
+        $con = conexion();
+
+        $username = mysqli_real_escape_string($con, $nombreUsuario);
+
+        $password = mysqli_real_escape_string($con, $password);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $consulta = "SELECT i.clave 
+                     FROM final_idioma i 
+                     WHERE i.idioma = '$language'";
+
+        $resultado = $con->query($consulta);
+        $fila = $resultado->fetch_assoc();
+
+        $language = $fila['clave'];
+
+        $consulta = "INSERT INTO final_usuario (nombreUsuario, tipo, passwordHash, correo, claveIdioma) VALUES ('$username', 'user', '$passwordHash', '$correo', '$language')";
+
+        if(!$con->query($consulta)){
+            echo "error al insertar el usuario" . $con->error . "<br";
+        }
+        else{
+            $resultado = $con->query($consulta);
+            header("Location: ../plantillaWeb/logIn.html");
+            exit;
+        }
+    }
+
+    function login($nombreUsuario, $password){
+        $con = conexion();
+
+        ini_set('session.cookie_secure', 1);
+        ini_set('session.cookie_httponly', 1);
+        ini_set('session.use_only_cookies', 1);
+        session_start();
+
+        $nombreUsuario = mysqli_real_escape_string($con, $nombreUsuario);
+        $password = mysqli_real_escape_string($con, $password);
+
+        $consulta = "SELECT passwordHash FROM final_usuario WHERE nombreUsuario = '$nombreUsuario'";
+
+        $resultado = $con->query($consulta);
+
+        if ($row = $resultado->fetch_assoc()) {
+            if (password_verify($password, $row['passwordHash'])) {
+                $_SESSION['user_id'] = $nombreUsuario;
+                header("Location: ../plantillaWeb/index.html");
+                exit;
+            } else {
+                echo "Contraseña incorrecta.";
+            }
+        } else {
+            echo "Usuario no encontrado.";
+        }
+    }
+
+    function logout(){
+        session_start();
+        $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        session_destroy();
+        header("Location: ../plantillaWeb/index.html");
+    }
 ?>

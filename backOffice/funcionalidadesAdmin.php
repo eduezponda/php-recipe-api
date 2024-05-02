@@ -1,6 +1,9 @@
 <?php
     include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
+	include_once '/var/www/html/Trabajo Final/basededatosAPI/insertarDatos.php';
 	include_once '/var/www/html/Trabajo Final/basededatosAPI/borrarDatosTablasAPI.php';
+	include_once '/var/www/html/Trabajo Final/textTranslatorAPI/textTranslatorApi.php';
+	include_once '/var/www/html/Trabajo Final/recipeAPI/recipeFoodApi.php';
     
 	function eliminarUsuario($usuario){
 		$con = conexion();
@@ -95,18 +98,6 @@
             }
         }
 
-		$languages = json_decode(getTranslatorLanguages(), true);
-    
-		foreach($languages['translation'] as $key => $idioma) {
-
-			$nombre = $idioma['name'];
-
-			$consulta = "insert into final_idioma (idioma, clave) values ('$nombre', '$key')";
-			if (!$con->query($consulta)) {
-				echo "Error al ejecutar la inserción de idioma: " . $con->error . "<br>";
-			}
-		}
-
         date_default_timezone_set('Europe/Madrid');
         $fechaActual = new DateTime();
         $fechaActual->setTimezone(new DateTimeZone('Europe/Madrid'));
@@ -126,5 +117,19 @@
             $con->close();
         }
     }
-    
+	function insertarDatosTablaIdiomas(){
+		$con = conexion();
+		$nombresIdiomas = ["Italiano", "Alemán", "Griego", "Inglés", "Español", "Francés", "Chino"];
+		$claveIdiomas = ["it", "de", "el","en", "es", "fr", "zh-Hant"];
+		
+		for ($i = 0; $i < count($nombresIdiomas); $i++) {
+			$nombre = $nombresIdiomas[$i];
+			$clave = $claveIdiomas[$i];
+	
+			$consulta = "INSERT INTO final_idioma (idioma, clave) VALUES ('$nombre', '$clave')";
+			if (!$con->query($consulta)) {
+				echo "Error al ejecutar la inserción de idioma: " . $con->error . "<br>";
+			}
+		}
+	}    
 ?>

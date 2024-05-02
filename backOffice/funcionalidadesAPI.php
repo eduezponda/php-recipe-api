@@ -7,17 +7,10 @@
         $consulta = "SELECT MAX(fecha) AS ultima_fecha FROM final_fechaActualizacion";
         $resultado = $con->query($consulta);
 
-        $ultimaFechaActualizacion = [];
-
-        if ($row = $resultado->fetch_assoc()) {
-            $ultimaFechaActualizacion[] = $row;
-        }
-
         $con->close();
 
-        return [
-            'ultimaFechaActualizacion' => $ultimaFechaActualizacion
-        ];
-    }
+        $row = $resultado->fetch_assoc();
 
+        return $row['ultima_fecha'];
+    }
 ?>
