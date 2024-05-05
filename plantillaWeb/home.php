@@ -1,3 +1,7 @@
+<?php
+  require_once "../frontOffice/funcionalidadesAPI.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,12 +16,6 @@
     />
 
     <title>Mazapan Company-Home</title>
-
-    <!-- Principio script -->
-    <script>
-      window.location.href = "index.php";
-    </script>
-    <!-- Final script -->
 
     <link rel="icon" href="assets/images/logoMazapan.png" type="image/png" />
 
@@ -57,7 +55,7 @@
               <li><i class="fa fa-envelope"></i> mazapan@company.com</li>
               <li>
                 <i class="fa-regular fa-calendar"></i> Última actualización:
-                <!-- Fecha Actualizacion -->
+                <?php echo obtenerUltimaFechaDeActualizacion(); ?>
               </li>
             </ul>
           </div>
@@ -72,13 +70,13 @@
           <div class="col-12">
             <nav class="main-nav">
               <!-- ***** Logo Start ***** -->
-              <a href="index.php" class="logo">
+              <a href="home.php" class="logo">
                 <h1>Mazapan</h1>
               </a>
               <!-- ***** Logo End ***** -->
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
-                <li><a href="index.php" class="active">Home</a></li>
+                <li><a href="home.php" class="active">Home</a></li>
                 <li><a href="recipes.php">Recipes</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <li>

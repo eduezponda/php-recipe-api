@@ -120,7 +120,7 @@
         }
         else{
             $resultado = $con->query($consulta);
-            header("Location: ../plantillaWeb/logIn.html");
+            header("Location: ../plantillaWeb/logIn.php");
             exit;
         }
     }
@@ -143,7 +143,7 @@
         if ($row = $resultado->fetch_assoc()) {
             if (password_verify($password, $row['passwordHash'])) {
                 $_SESSION['user_id'] = $nombreUsuario;
-                header("Location: ../plantillaWeb/index.html");
+                header("Location: ../plantillaWeb/home.php");
                 exit;
             } else {
                 echo "Contraseña incorrecta.";
