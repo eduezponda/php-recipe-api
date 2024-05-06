@@ -164,4 +164,83 @@
             'minutos' => $datosMinutos
         ];
     }
+
+    function obtenerDatosReceta($id_receta) {
+
+        $con = conexion();
+
+        $consulta = "SELECT 
+                        r.id AS receta_id,
+                        r.titulo,
+                        r.imagen,
+                        r.resumen,
+                        c.query AS comida,
+                        c.minutos,
+                        req.carbohidratos,
+                        req.proteinas,
+                        req.grasas,
+                        req.calorias,
+                        comp.colesterol,
+                        comp.azucar,
+                        co.cocina,
+                        d.dieta,
+                    FROM 
+                        final_receta AS r
+                    LEFT JOIN 
+                        final_comida AS c ON r.id_comida = c.id
+                    LEFT JOIN 
+                        final_requerimiento AS req ON r.id_requerimiento = req.id
+                    LEFT JOIN 
+                        final_composicion AS comp ON r.id_composicion = comp.id
+                    LEFT JOIN 
+                        final_cocina AS co ON r.id = co.id_receta
+                    LEFT JOIN 
+                        final_dieta AS d ON r.id = d.id_receta
+                    WHERE 
+                        r.id = ?";
+
+        if ($stmt = $con->prepare($consulta)) {
+            $stmt->bind_param("i", $id_receta);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            
+            $datos = [];
+            
+            while ($fila = $resultado->fetch_assoc()) {
+                $datos[] = $fila;
+            }
+            
+            $stmt->close();
+            
+            return $datos;
+        } else {
+            echo "Error al recoger los datos de la receta de la base de datos";
+            return null;
+        }
+    }
+
+    function obtenerIngredientesReceta($id_receta) {
+        $con = conexion();
+
+        $consulta = "SELECT * FROM final_ingrediente AS i WHERE i.id_receta = ?";
+
+        if ($stmt = $con->prepare($consulta)) {
+            $stmt->bind_param("i", $id_receta);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            
+            $datos = [];
+            
+            while ($fila = $resultado->fetch_assoc()) {
+                $datos[] = $fila;
+            }
+            
+            $stmt->close();
+            
+            return $datos;
+        } else {
+            echo "Error al recoger los ingredientes de la receta de la base de datos";
+            return null;
+        }
+    }
 ?>

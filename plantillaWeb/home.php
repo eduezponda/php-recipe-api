@@ -34,6 +34,12 @@
   </head>
 
   <body>
+
+    <?php 
+      $id_receta = 5; // modificar por una llamada a random o seleccionar de algun modo especial
+      $datosReceta = obtenerDatosReceta($id_receta);
+    ?>
+
     <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
       <div class="preloader-inner">
@@ -124,7 +130,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="left-image">
-              <img src="assets/images/featured.jpg" alt="" />
+              <img src="<?php echo $datosReceta[0]['imagen']; ?>" alt="" />
               <a href="recipe-details.php"
                 ><img
                   src="assets/images/LogoDetalles.png"
@@ -136,7 +142,7 @@
           <div class="col-lg-5">
             <div class="section-heading">
               <h6>| Más popular hoy</h6>
-              <h2>Best Appartment &amp; Sea view</h2>
+              <h2><?php echo $datosReceta[0]['titulo']; ?></h2>
             </div>
             <div class="accordion" id="accordionExample">
               <div class="accordion-item">
@@ -159,15 +165,14 @@
                   data-bs-parent="#accordionExample"
                 >
                   <div class="accordion-body">
-                    Get <strong>the best villa</strong> website template in HTML
-                    CSS and Bootstrap for your business. TemplateMo provides you
-                    the
-                    <a
-                      href="https://www.google.com/search?q=best+free+css+templates"
-                      target="_blank"
-                      >best free CSS templates</a
-                    >
-                    in the world. Please tell your friends about it.
+                    <?php
+                      echo "Cantidad carbohidratos: " . $datosReceta[0]['carbohidratos'] . "</br>";
+                      echo "Cantidad proteinas: " . $datosReceta[0]['proteinas'] . "</br>";
+                      echo "Cantidad grasas: " . $datosReceta[0]['grasas'] . "</br>";
+                      echo "Cantidad calorias: " . $datosReceta[0]['calorias'] . "</br>";
+                      echo "Cantidad colesterol: " . $datosReceta[0]['colesterol'] . "</br>";
+                      echo "Cantidad azucar: " . $datosReceta[0]['azucar'] . "</br>";
+                    ?>
                   </div>
                 </div>
               </div>
@@ -191,10 +196,13 @@
                   data-bs-parent="#accordionExample"
                 >
                   <div class="accordion-body">
-                    Dolor <strong>almesit amet</strong>, consectetur adipiscing
-                    elit, sed doesn't eiusmod tempor incididunt ut labore
-                    consectetur <code>adipiscing</code> elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    <?php 
+                      $datosIngredientes = obtenerIngredientesReceta($id_receta);
+
+                      foreach ($datosIngredientes as $fila) {
+                        echo "- " . $fila['ingrediente'] . " " . $fila['cantidad'] . " " . $fila['medidaCantidad'] . ".</br>";
+                      }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -209,7 +217,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>Query<br /><span>Comida base</span></h4>
+                  <h4><?php echo $datosReceta[0]['comida']; ?><br /><span>Comida base</span></h4>
                 </li>
                 <li>
                   <img
@@ -217,7 +225,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>35 minutos<br /><span>Tiempo de preparación</span></h4>
+                  <h4><?php echo $datosReceta[0]['minutos'] . 'min'; ?><br /><span>Tiempo de preparación</span></h4>
                 </li>
                 <li>
                   <img
@@ -225,7 +233,14 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>cocina<br /><span>Tipo cocina</span></h4>
+                  <h4><?php 
+                    $todas_cocinas = '';
+
+                    foreach ($datos_receta as $fila) {
+                        $todas_cocinas .= ", " . $fila['cocina'];
+                    }
+                    echo substr($todas_cocinas, 2); 
+                  ?><br /><span>Tipo cocina</span></h4>
                 </li>
                 <li>
                   <img
@@ -233,7 +248,14 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>dieta<br /><span>Dieta compatible</span></h4>
+                  <h4><?php 
+                    $todas_dieta = '';
+
+                    foreach ($datos_receta as $fila) {
+                        $todas_dieta .= ", " . $fila['dieta'];
+                    }
+                    echo substr($todas_dieta, 2); 
+                  ?><br /><span>Dieta compatible</span></h4>
                 </li>
               </ul>
             </div>
