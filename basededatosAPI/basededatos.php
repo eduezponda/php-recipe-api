@@ -6,7 +6,7 @@
 		$password = "fai8eXooch";
 		$bd = "db_grupo08";
 
-		$con = mysqli_connect("dbserver", "grupo08", "fai8eXooch", "db_grupo08");
+		$con = mysqli_connect($servidor, $user, $password, $bd);
 
 		if (!$con) {
 			echo "Error de conexión de base de datos <br>";

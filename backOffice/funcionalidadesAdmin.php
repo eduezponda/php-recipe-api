@@ -1,9 +1,9 @@
 <?php
-    include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
-	include_once '/var/www/html/Trabajo Final/basededatosAPI/insertarDatos.php';
-	include_once '/var/www/html/Trabajo Final/basededatosAPI/borrarDatosTablasAPI.php';
-	include_once '/var/www/html/Trabajo Final/textTranslatorAPI/textTranslatorApi.php';
-	include_once '/var/www/html/Trabajo Final/recipeAPI/recipeFoodApi.php';
+    include_once '../basededatosAPI/basededatos.php';
+	include_once '../basededatosAPI/insertarDatos.php';
+	include_once '../basededatosAPI/borrarDatosTablasAPI.php';
+	include_once '../textTranslatorAPI/textTranslatorApi.php';
+	include_once '../recipeAPI/recipeFoodApi.php';
     
 	function eliminarUsuario($usuario){
 		$con = conexion();

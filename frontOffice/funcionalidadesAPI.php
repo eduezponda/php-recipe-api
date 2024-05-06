@@ -1,5 +1,5 @@
 <?php
-    include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
+    include_once '../basededatosAPI/basededatos.php';
 
     function verResumenDatosAPI (){
         $con = conexion();
@@ -183,7 +183,7 @@
                         comp.colesterol,
                         comp.azucar,
                         co.cocina,
-                        d.dieta,
+                        d.dieta
                     FROM 
                         final_receta AS r
                     LEFT JOIN 
