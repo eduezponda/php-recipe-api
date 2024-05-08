@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^$ /plantillaWeb/home.php [L]

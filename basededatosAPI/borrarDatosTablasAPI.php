@@ -16,6 +16,10 @@
             }
         }
 
+        $consultaReiniciarAutoIncrement = "ALTER TABLE final_receta AUTO_INCREMENT = 1; ALTER TABLE final_comida AUTO_INCREMENT = 1; 
+                                           ALTER TABLE final_requerimiento AUTO_INCREMENT = 1; ALTER TABLE final_composicion AUTO_INCREMENT = 1;";
+        $resultado = $con->query($consultaReiniciarAutoIncrement);
+
         $con->close();
     }
 ?>

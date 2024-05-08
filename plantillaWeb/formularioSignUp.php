@@ -7,6 +7,13 @@
         $email = $_POST['email'];
         $language = $_POST['language'];
 
-        signUp($username, $email, $language, $password);
+        if ($username == '' || $password == '') {
+            header("Location: signUp.php?result=-3");
+            exit();
+        }
+
+        $result = signUp($username, $email, $language, $password);
+
+        header("Location: signUp.php?result=" . $result);
     }
 ?>

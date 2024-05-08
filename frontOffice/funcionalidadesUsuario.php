@@ -1,6 +1,7 @@
 <?php
     include_once 'MYPDF.php';
-    include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
+    include_once '../basededatosAPI/basededatos.php';
+    require_once '../plantillaWeb/user.php';
 
     function cambiarContrasena($usuario, $usuarioCambiar, $nuevaContrasena){
         $con = conexion();
@@ -11,9 +12,7 @@
         $stmt->bind_param("sss", $passwordHash, $usuario, $usuarioCambiar);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
-            echo "Contraseña cambiada correctamente. <br>";
-        } else {
+        if ($stmt->affected_rows <= 0) {
             $stmt = $con->prepare("SELECT tipo FROM final_usuario WHERE nombreUsuario = ?");
             $stmt->bind_param("s", $usuario);
             $stmt->execute();
@@ -29,18 +28,19 @@
                 $stmt->bind_param("ss", $passwordHash, $usuarioCambiar);
                 $stmt->execute();
 
-                if ($stmt->affected_rows > 0) {
-                    echo "Contraseña cambiada correctamente. <br>";
-                } 
-                else{
+                if ($stmt->affected_rows <= 0) {
                     echo "Usuario no existe <br>";
-                }
+                } 
             }
             else{
                 echo "Usuario no tiene permisos para cambiar la contraseña de otro usuario<br>";
             }
         }
         $stmt->close();
+
+        //header('Location: user.php');
+        exit();
+
     }
 
     function verInformacionUsuario($nombreUsuario){
@@ -61,6 +61,19 @@
 
         return array($correo, $idioma);
     }
+
+    function cambiarIdioma($nombreUsuario, $nuevoIdioma){
+        $con = conexion();
+        
+        $consulta = "UPDATE final_usuario SET claveIdioma = '$nuevoIdioma' WHERE nombreUsuario = '$nombreUsuario'";
+        $resultado = $con->query($consulta);
+    
+        $con->close();
+
+        //header('Location: user.php');
+        exit();
+    }
+    
 
     function exportarInformacionPDF($nombreUsuario){
         $informacionUsuario = verInformacionUsuario($nombreUsuario);
@@ -113,15 +126,22 @@
 
         $language = $fila['clave'];
 
+        $correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
+
+        if (filter_var($correo, FILTER_VALIDATE_EMAIL) === false)
+        {
+            return -1;
+        }
+
         $consulta = "INSERT INTO final_usuario (nombreUsuario, tipo, passwordHash, correo, claveIdioma) VALUES ('$username', 'user', '$passwordHash', '$correo', '$language')";
 
         if(!$con->query($consulta)){
-            echo "error al insertar el usuario" . $con->error . "<br";
+            return -2;
         }
         else{
             $resultado = $con->query($consulta);
             header("Location: ../plantillaWeb/logIn.php");
-            exit;
+            exit();
         }
     }
 
@@ -133,18 +153,28 @@
         ini_set('session.use_only_cookies', 1);
         session_start();
 
+        $_SESSION = array();
+
         $nombreUsuario = mysqli_real_escape_string($con, $nombreUsuario);
         $password = mysqli_real_escape_string($con, $password);
 
-        $consulta = "SELECT passwordHash FROM final_usuario WHERE nombreUsuario = '$nombreUsuario'";
+        $consulta = "SELECT passwordHash, tipo FROM final_usuario WHERE nombreUsuario = '$nombreUsuario'";
 
         $resultado = $con->query($consulta);
 
         if ($row = $resultado->fetch_assoc()) {
             if (password_verify($password, $row['passwordHash'])) {
-                $_SESSION['user_id'] = $nombreUsuario;
+                $_SESSION['user_name'] = $nombreUsuario;
+
+                if ($row['tipo'] === 'admin') {
+                    $_SESSION['admin'] = true;
+                    header("Location: ../plantillaWeb/admin.php");
+                    exit();
+                }
+
                 header("Location: ../plantillaWeb/home.php");
-                exit;
+                exit();
+                
             } else {
                 echo "Contraseña incorrecta.";
             }
@@ -166,6 +196,6 @@
         }
 
         session_destroy();
-        header("Location: ../plantillaWeb/index.html");
+        header("Location: ../plantillaWeb/home.php");
     }
 ?>

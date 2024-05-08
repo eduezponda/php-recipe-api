@@ -1,5 +1,11 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
+  session_start();
+
+  if (isset($_SESSION['user_name'])) {
+    header('Location: home.php');
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -80,15 +86,11 @@
                 <li><a href="recipes.php">Recipes</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <li>
-                  <a href="signUp.php"
-                    ><i class="fa-solid fa-lock"></i>Sign Up</a
+                  <a href='signUp.php?result=0'
+                    ><i class='fa-solid fa-lock'></i>Sign Up</a
                   >
                 </li>
               </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
             </nav>
           </div>
         </div>

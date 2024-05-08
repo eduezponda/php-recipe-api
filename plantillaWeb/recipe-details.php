@@ -1,5 +1,6 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
+  session_start();
 ?>
 
 <!DOCTYPE html>
@@ -76,19 +77,25 @@
               <!-- ***** Logo End ***** -->
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
-                <li><a href="home.php" class="active">Home</a></li>
+                <li><a href="home.php">Home</a></li>
                 <li><a href="recipes.php">Recipes</a></li>
                 <!-- ***** Add new Tab ***** -->
-                <li>
-                  <a href="signUp.php"
-                    ><i class="fa-solid fa-lock"></i>Sign Up</a
-                  >
-                </li>
+                <?php 
+                  if (isset($_SESSION['user_name'])) {
+                    echo "<li>
+                      <a href='user.php'
+                        ><i class='fa-solid fa-user'></i>{$_SESSION['user_name']}</a>
+                    </li>";
+                  }
+                  else {
+                    echo "<li>
+                      <a href='signUp.php?result=0'
+                        ><i class='fa-solid fa-lock'></i>Sign Up</a
+                      >
+                    </li>";
+                  }
+                ?>
               </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
             </nav>
           </div>
         </div>

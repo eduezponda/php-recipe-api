@@ -1,5 +1,16 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
+
+  session_start();
+
+  $result = $_GET['result'];
+
+  if (isset($_SESSION['user_name'])) {
+    header('Location: home.php');
+    exit();
+  }
+
+  $idiomas = obtenerIdiomas();
 ?>
 
 <!DOCTYPE html>
@@ -80,13 +91,11 @@
                 <li><a href="recipes.php">Recipes</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <li>
-                  <a href="logIn.php"><i class="fa-solid fa-lock"></i>Log In</a>
+                  <a href='logIn.php'
+                    ><i class='fa-solid fa-lock'></i>Log in</a
+                  >
                 </li>
               </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
             </nav>
           </div>
         </div>
@@ -122,6 +131,12 @@
                       autocomplete="on"
                       required
                     />
+                    <?php
+                      if ($result == -2)
+                      {
+                        echo '<p style="color: red;">The username or email already exists</p>';
+                      }
+                    ?>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">
@@ -135,19 +150,25 @@
                       placeholder="Your E-mail..."
                       required=""
                     />
+                    <?php
+                      if ($result == -1)
+                      {
+                        echo '<p style="color: red;">The email is not valid</p>';
+                      }
+                    ?>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
-                    <label for="language">Language</label>
-                    <input
-                      type="language"
-                      name="language"
-                      id="language"
-                      placeholder="Language..."
-                      autocomplete="on"
-                    />
-                  </fieldset>
+                    <label for="language" class="labels">Language</label><br>
+                    <select name="language">
+                        <?php foreach ($idiomas as $idioma): ?>
+                            <option value="<?= $idioma['clave'] ?>">
+                                <?= $idioma['idioma'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                  </fieldset> <br>
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
@@ -163,6 +184,12 @@
                 </div>
               </div>
               <button type="submit" class="btn">Submit</button>
+              <?php
+                  if ($result == -3)
+                  {
+                    echo '<p style="color: red;">Fill all the gaps</p>';
+                  }
+              ?>
             </form>
           </div>
         </div>

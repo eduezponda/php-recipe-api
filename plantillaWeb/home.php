@@ -1,5 +1,6 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
+  session_start();
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@
   <body>
 
     <?php 
-      $id_receta = 5; // modificar por una llamada a random o seleccionar de algun modo especial
+      $id_receta = seleccionarIdReceta();
       $datosReceta = obtenerDatosReceta($id_receta);
     ?>
 
@@ -85,16 +86,22 @@
                 <li><a href="home.php" class="active">Home</a></li>
                 <li><a href="recipes.php">Recipes</a></li>
                 <!-- ***** Add new Tab ***** -->
-                <li>
-                  <a href="signUp.php"
-                    ><i class="fa-solid fa-lock"></i>Sign Up</a
-                  >
-                </li>
+                <?php 
+                  if (isset($_SESSION['user_name'])) {
+                    echo "<li>
+                      <a href='user.php'
+                        ><i class='fa-solid fa-user'></i>{$_SESSION['user_name']}</a>
+                    </li>";
+                  }
+                  else {
+                    echo "<li>
+                      <a href='signUp.php?result=0'
+                        ><i class='fa-solid fa-lock'></i>Sign Up</a
+                      >
+                    </li>";
+                  }
+                ?>
               </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
             </nav>
           </div>
         </div>
@@ -229,7 +236,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Tiempo de preparación</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Tiempo preparación</span></h4>
                 </li>
                 <li>
                   <img
@@ -239,9 +246,10 @@
                   />
                   <h4><?php 
                     $todas_cocinas = '';
+                    $datosCocinas = obtenerCocinasReceta($id_receta);
 
-                    if (!empty($datosReceta)) {
-                      foreach ($datosReceta as $fila) {
+                    if (!empty($datosCocinas)) {
+                      foreach ($datosCocinas as $fila) {
                           $todas_cocinas .= ", " . $fila['cocina'];
                       }
                       echo substr($todas_cocinas, 2); 
