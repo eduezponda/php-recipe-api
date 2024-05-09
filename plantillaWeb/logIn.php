@@ -2,6 +2,12 @@
   require_once "../frontOffice/funcionalidadesAPI.php";
   session_start();
 
+  $result = 0;
+
+  if (isset($_GET['result'])) {
+    $result = $_GET['result'];
+  }
+
   if (isset($_SESSION['user_name'])) {
     header('Location: home.php');
     exit();
@@ -126,6 +132,12 @@
                       autocomplete="on"
                       required
                     />
+                    <?php
+                      if ($result == -1)
+                      {
+                        echo '<p style="color: red;">The username is not correct</p>';
+                      }
+                    ?>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">
@@ -138,6 +150,12 @@
                       placeholder="Your password..."
                       required
                     />
+                    <?php
+                      if ($result == -2)
+                      {
+                        echo '<p style="color: red;">The password is not correct</p>';
+                      }
+                    ?>
                   </fieldset>
                 </div>
               </div>

@@ -104,6 +104,17 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><button onclick='logout.php' class="border px-3 p-1 add-experience">&nbsp;Log out</button></div><br><br><br>
+                <img
+                    class = "image"
+                    src="assets/images/logoMazapan.png"
+                    alt="Logo Mazapan"
+                    style="max-width: 150px"
+                />
+            </div>
+        </div>
         </div>
     </div>
   </body>

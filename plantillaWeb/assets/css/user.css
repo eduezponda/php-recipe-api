@@ -2,11 +2,6 @@ body {
   background: rgb(99, 39, 120);
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-}
-
 .form-control:focus {
   box-shadow: none;
   border-color: #ba68c8;
@@ -16,6 +11,11 @@ body {
   background: rgb(99, 39, 120);
   box-shadow: none;
   border: none;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
 }
 
 .profile-button:hover {
@@ -39,4 +39,16 @@ body {
 
 .labels {
   font-size: 11px;
+}
+
+.add-experience:hover {
+  background: #b90e0e;
+  color: #fff;
+  cursor: pointer;
+  border: solid 1px #b90e0e;
+}
+
+.col-md-4 {
+  display: flex;
+  justify-content: center;
 }

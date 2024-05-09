@@ -1,7 +1,6 @@
 <?php
     include_once 'MYPDF.php';
     include_once '../basededatosAPI/basededatos.php';
-    require_once '../plantillaWeb/user.php';
 
     function cambiarContrasena($usuario, $usuarioCambiar, $nuevaContrasena){
         $con = conexion();
@@ -38,7 +37,7 @@
         }
         $stmt->close();
 
-        //header('Location: user.php');
+        header('Location: ../plantillaWeb/user.php');
         exit();
 
     }
@@ -70,7 +69,7 @@
     
         $con->close();
 
-        //header('Location: user.php');
+        header('Location: ../plantillaWeb/user.php');
         exit();
     }
     
@@ -153,8 +152,6 @@
         ini_set('session.use_only_cookies', 1);
         session_start();
 
-        $_SESSION = array();
-
         $nombreUsuario = mysqli_real_escape_string($con, $nombreUsuario);
         $password = mysqli_real_escape_string($con, $password);
 
@@ -176,10 +173,12 @@
                 exit();
                 
             } else {
-                echo "Contraseña incorrecta.";
+                //echo "Contraseña incorrecta.";
+                return -2;
             }
         } else {
-            echo "Usuario no encontrado.";
+            //echo "Usuario no encontrado.";
+            return -1;
         }
     }
 
