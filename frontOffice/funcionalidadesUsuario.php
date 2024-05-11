@@ -116,15 +116,6 @@
         $password = mysqli_real_escape_string($con, $password);
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $consulta = "SELECT i.clave 
-                     FROM final_idioma i 
-                     WHERE i.idioma = '$language'";
-
-        $resultado = $con->query($consulta);
-        $fila = $resultado->fetch_assoc();
-
-        $language = $fila['clave'];
-
         $correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
 
         if (filter_var($correo, FILTER_VALIDATE_EMAIL) === false)
@@ -134,13 +125,16 @@
 
         $consulta = "INSERT INTO final_usuario (nombreUsuario, tipo, passwordHash, correo, claveIdioma) VALUES ('$username', 'user', '$passwordHash', '$correo', '$language')";
 
-        if(!$con->query($consulta)){
+        try {
+            if(!$con->query($consulta)){
+                return -2;
+            }
+            else{
+                header("Location: ../plantillaWeb/logIn.php");
+                exit();
+            }
+        } catch (mysqli_sql_exception $e) {
             return -2;
-        }
-        else{
-            $resultado = $con->query($consulta);
-            header("Location: ../plantillaWeb/logIn.php");
-            exit();
         }
     }
 
@@ -180,21 +174,5 @@
             //echo "Usuario no encontrado.";
             return -1;
         }
-    }
-
-    function logout(){
-        session_start();
-        $_SESSION = array();
-
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-
-        session_destroy();
-        header("Location: ../plantillaWeb/home.php");
     }
 ?>

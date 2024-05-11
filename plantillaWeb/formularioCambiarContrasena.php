@@ -14,7 +14,7 @@
         $verificateSamePassword = $_POST['verificateSamePassword'];
 
         if ($newPassword == '' || $verificateSamePassword == '' || strcmp($verificateSamePassword, $newPassword) !== 0){
-            echo "<script>alert('La contraseña es distinta o está vacía');</script>";
+            header('Location: user.php?result=-1');
             exit();
         }
 

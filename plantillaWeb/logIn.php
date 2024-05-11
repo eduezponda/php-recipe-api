@@ -160,6 +160,12 @@
                 </div>
               </div>
               <button type="submit" class="btn">Submit</button>
+              <?php
+                  if ($result == -3)
+                  {
+                    echo '<p style="color: red;">Fill all the gaps</p>';
+                  }
+              ?>
             </form>
           </div>
         </div>

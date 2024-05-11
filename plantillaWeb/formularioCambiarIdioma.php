@@ -1,5 +1,5 @@
 <?php
-    include '../frontOffice/funcionalidadesUsuario.php'; 
+    include '../frontOffice/funcionalidadesUsuario.php';
 
     session_start();
     

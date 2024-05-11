@@ -12,4 +12,5 @@
 
     session_destroy();
     header("Location: ../plantillaWeb/home.php");
+    exit();
 ?>

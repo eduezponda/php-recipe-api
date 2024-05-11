@@ -9,6 +9,12 @@
         exit();
     }
 
+    $result = 0;
+
+    if (isset($_GET['result'])) {
+        $result = $_GET['result'];
+    }
+
     $idiomas = obtenerIdiomas();
     $datosUsuario = verInformacionUsuario($_SESSION['user_name']);
 
@@ -51,6 +57,34 @@
   </head>
 
   <body>
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="main-nav">
+              <!-- ***** Logo Start ***** -->
+              <a href="home.php" class="logo">
+                <h1>Mazapan</h1>
+              </a>
+              <!-- ***** Logo End ***** -->
+              <!-- ***** Menu Start ***** -->
+              <ul class="nav">
+                <li><a href="home.php">Home</a></li>
+                <li><a href="recipes.php">Recipes</a></li>
+                <!-- ***** Add new Tab ***** -->
+                <li>
+                    <a href='user.php'>
+                    <i class='fa-solid fa-user'></i><?php echo $nombreUsuario ?></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
     <div class="container rounded bg-white mt-5 mb-5">
         <div class="row">
             <div class="col-md-3 border-right">
@@ -95,6 +129,12 @@
                                 </label>
                                 <input type="password" class="form-control" name="verificateSamePassword" placeholder="New password..." value="">
                             </div>
+                            <?php
+                                if ($result == -1)
+                                {
+                                    echo '<p style="color: red;">Please review for accuracy</p>';
+                                }
+                                ?>
                             <div class="mt-5 text-center">
                                 <button class="btn btn-primary profile-button" type="submit">
                                     Guardar nueva contraseña
@@ -105,17 +145,35 @@
                 </div>
             </div>
             <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><button onclick='logout.php' class="border px-3 p-1 add-experience">&nbsp;Log out</button></div><br><br><br>
-                <img
-                    class = "image"
-                    src="assets/images/logoMazapan.png"
-                    alt="Logo Mazapan"
-                    style="max-width: 150px"
-                />
+                <div class="p-3 py-5">
+                    <form id="logoutForm" action="../frontOffice/logout.php" method="post">
+                        <div class="d-flex justify-content-between align-items-center experience">
+                            <button type="submit" class="border px-3 p-1 add-experience">&nbsp;Log out</button>
+                        </div><br><br><br>
+                    </form>
+                    <img
+                        class = "image"
+                        src="assets/images/logoMazapan.png"
+                        alt="Logo Mazapan"
+                        style="max-width: 150px"
+                    />
+                </div>
             </div>
         </div>
-        </div>
     </div>
+    <br><br><br><br><br>
+
+    <footer>
+      <div class="container">
+        <div class="col-lg-8 footer-content">
+          <img
+            src="assets/images/logoMazapan.png"
+            alt="Logo Mazapan"
+            style="max-width: 80px"
+          />
+          <p>Mazapan Corporate</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

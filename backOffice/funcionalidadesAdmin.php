@@ -131,5 +131,5 @@
 				echo "Error al ejecutar la inserción de idioma: " . $con->error . "<br>";
 			}
 		}
-	}    
+	}
 ?>
