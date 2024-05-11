@@ -6,6 +6,11 @@
 		$password = "fai8eXooch";
 		$bd = "db_grupo08";
 
+		// $servidor = "localhost";
+		// $user = "root";
+		// $password = "";
+		// $bd = "db_grupo08_local";
+
 		$con = mysqli_connect($servidor, $user, $password, $bd);
 
 		if (!$con) {
