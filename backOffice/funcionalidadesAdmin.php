@@ -132,4 +132,7 @@
 			}
 		}
 	}
+
+	actualizarDatosAPI();
+	insertarDatosTablaIdiomas();
 ?>
