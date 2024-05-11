@@ -1,6 +1,26 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
+  require_once "../frontOffice/funcionalidadesUsuario.php";
+  require_once "../textTranslatorAPI/textTranslatorApi.php";
   session_start();
+
+  $idReceta = 1;
+
+  if (isset($_GET['id'])) {
+    $idReceta = $_GET['id'];
+  }
+  else {
+    $idReceta = seleccionarIdReceta();
+  }
+
+  $idioma = "";
+  if (isset($_SESSION['user_name'])) {
+    $idioma = obtenerIdiomaUsuario($_SESSION['user_name']);
+  }
+
+  $datosReceta = obtenerDatosReceta($idReceta);
+  $datosIngredientes = obtenerIngredientesReceta($idReceta);
+  $datosCocinas = obtenerCocinasReceta($idReceta);
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +130,7 @@
             <span class="breadcrumb"
               ><a href="#">Home</a> / Detalles receta</span
             >
-            <h3>Título receta</h3>
+            <h3><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h3>
           </div>
         </div>
       </div>
@@ -122,22 +142,18 @@
           <div class="col-lg-8">
             <div class="main-image">
               <img
-                src="https://img.spoonacular.com/recipes/603414-312x231.jpg"
+                src="<?php if (!empty($datosReceta)) {echo $datosReceta[0]['imagen'];} ?>"
                 alt=""
               />
             </div>
             <div class="main-content">
-              <span class="category">Tipo cocina</span>
-              <h4>Título receta</h4>
+              <span class="category"><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?></span>
+              <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h4>
               <p>
-                Resumen receta
-
-                <br /><br />When you look for free CSS templates, you can simply
-                type TemplateMo in any search engine website. In addition, you
-                can type TemplateMo Digital Marketing, TemplateMo Corporate
-                Layouts, etc. Master cleanse +1 intelligentsia swag post-ironic,
-                slow-carb chambray knausgaard PBR&B DSA poutine neutra cardigan
-                hoodie pop-up.
+                <?php if (!empty($datosReceta)) {
+                  if ($idioma == "") {echo $datosReceta[0]['resumen'];}
+                  else {echo getTranslateText($idioma, $datosReceta[0]['resumen']);}
+                } ?>
               </p>
             </div>
             <div class="accordion" id="accordionExample">
@@ -161,12 +177,16 @@
                   data-bs-parent="#accordionExample"
                 >
                   <div class="accordion-body">
-                    Dolor <strong>almesit amet</strong>, consectetur adipiscing
-                    elit, sed doesn't eiusmod tempor kinfolk tonx seitan
-                    crucifix 3 wolf moon bicycle rights keffiyeh snackwave wolf
-                    same vice, chillwave vexillologist incididunt ut labore
-                    consectetur <code>adipiscing</code> elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    <?php
+                        if (!empty($datosReceta)) {
+                          echo "Cantidad carbohidratos: " . $datosReceta[0]['carbohidratos'] . "</br>";
+                          echo "Cantidad proteinas: " . $datosReceta[0]['proteinas'] . "</br>";
+                          echo "Cantidad grasas: " . $datosReceta[0]['grasas'] . "</br>";
+                          echo "Cantidad calorias: " . $datosReceta[0]['calorias'] . "</br>";
+                          echo "Cantidad colesterol: " . $datosReceta[0]['colesterol'] . "</br>";
+                          echo "Cantidad azucar: " . $datosReceta[0]['azucar'] . "</br>";
+                        }
+                      ?>
                   </div>
                 </div>
               </div>
@@ -190,12 +210,13 @@
                   data-bs-parent="#accordionExample"
                 >
                   <div class="accordion-body">
-                    Dolor <strong>almesit amet</strong>, consectetur adipiscing
-                    elit, sed doesn't eiusmod tempor kinfolk tonx seitan
-                    crucifix 3 wolf moon bicycle rights keffiyeh snackwave wolf
-                    same vice, chillwave vexillologist incididunt ut labore
-                    consectetur <code>adipiscing</code> elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    <?php 
+                      if (!empty($datosIngredientes)) {
+                        foreach ($datosIngredientes as $fila) {
+                          echo "- " . $fila['ingrediente'] . ": " . $fila['cantidad'] . " " . $fila['medidaCantidad'] . ".</br>";
+                        }
+                      }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -210,7 +231,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>Query<br /><span>Comida base</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['comida'];} ?><br /><span>Comida base</span></h4>
                 </li>
                 <li>
                   <img
@@ -218,7 +239,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>35 minutos<br /><span>Tiempo de preparación</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Tiempo de preparación</span></h4>
                 </li>
                 <li>
                   <img
@@ -226,7 +247,17 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>cocina<br /><span>Tipo cocina</span></h4>
+                  <h4><?php 
+                    $todas_cocinas = '';
+                    $datosCocinas = obtenerCocinasReceta($idReceta);
+
+                    if (!empty($datosCocinas)) {
+                      foreach ($datosCocinas as $fila) {
+                          $todas_cocinas .= ", " . $fila['cocina'];
+                      }
+                      echo substr($todas_cocinas, 2); 
+                    }
+                  ?><br /><span>Tipo cocina</span></h4>
                 </li>
                 <li>
                   <img
@@ -234,7 +265,16 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4>dieta<br /><span>Dieta compatible</span></h4>
+                  <h4><?php 
+                    $todas_dieta = '';
+
+                    if (!empty($datosReceta)) {
+                      foreach ($datosReceta as $fila) {
+                          $todas_dieta .= ", " . $fila['dieta'];
+                      }
+                      echo substr($todas_dieta, 2); 
+                    }
+                  ?><br /><span>Dieta compatible</span></h4>
                 </li>
               </ul>
             </div>

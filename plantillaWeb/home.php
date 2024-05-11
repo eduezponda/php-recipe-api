@@ -138,7 +138,7 @@
           <div class="col-lg-4">
             <div class="left-image">
               <img src="<?php if (!empty($datosReceta)) {echo $datosReceta[0]['imagen'];} ?>" alt="" />
-              <a href="recipe-details.php"
+              <a href="<?php echo "recipe-details.php?id=" . $id_receta; ?>"
                 ><img
                   src="assets/images/LogoDetalles.png"
                   alt=""

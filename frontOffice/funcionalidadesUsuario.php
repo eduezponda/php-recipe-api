@@ -61,11 +61,25 @@
         return array($correo, $idioma);
     }
 
+    function obtenerIdiomaUsuario($user) {
+        $con = conexion();
+
+        $consulta = "SELECT u.claveIdioma FROM final_usuario u WHERE u.nombreUsuario = '$user'";
+
+        $resultado = $con->query($consulta);
+        $fila = $resultado->fetch_assoc();
+        $idioma = $fila['claveIdioma'];
+
+        $con->close();
+
+        return $idioma;
+    }
+
     function cambiarIdioma($nombreUsuario, $nuevoIdioma){
         $con = conexion();
         
         $consulta = "UPDATE final_usuario SET claveIdioma = '$nuevoIdioma' WHERE nombreUsuario = '$nombreUsuario'";
-        $resultado = $con->query($consulta);
+        $con->query($consulta);
     
         $con->close();
 

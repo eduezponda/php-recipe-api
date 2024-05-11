@@ -28,11 +28,16 @@
 
         curl_close($curl);
 
+        $response = json_decode($response, true);
+
         if ($err) {
             return "cURL Error #:" . $err;
         }
+        if (isset($response[0]['translations'][0]['text'])) {
+            return $response[0]['translations'][0]['text'];
+        }
 
-        return $response;
+        return "Error in translation access";
     }
 
     function getTranslatorLanguages() {
@@ -62,6 +67,5 @@
             return "cURL Error #:" . $err;
         } 
         return $response;
-    
     }
 ?>
