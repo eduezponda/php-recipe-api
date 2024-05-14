@@ -4,8 +4,6 @@
   require_once "../textTranslatorAPI/textTranslatorApi.php";
   session_start();
 
-  $idReceta = 1;
-
   if (isset($_GET['id'])) {
     $idReceta = $_GET['id'];
   }

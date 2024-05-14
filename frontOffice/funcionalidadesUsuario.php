@@ -181,7 +181,7 @@
                 exit();
                 
             } else {
-                //echo "Contraseña incorrecta.";
+                //echo "Contraseña incorrecta."; 
                 return -2;
             }
         } else {
