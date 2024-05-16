@@ -136,11 +136,8 @@
               echo '<div
                 class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 ' . $finales[$i] . '">
                 <div class="item">
-                  <a href="recipe-details.php?id=' . $idRecetas[$i] . '"
-                    ><img
-                      src="' . $datosReceta[0]["imagen"] . '"
-                      alt=""
-                  /></a>
+                  <a href="recipe-details.php?id=' . $idRecetas[$i] . '">
+                  <img src="' . $datosReceta[0]["imagen"] . '" alt="" width=350px height=260px></a>
                   <span class="category">' . $datosReceta[0]["comida"] . '</span>
                   <h6>' . $datosReceta[0]["minutos"] . ' min</h6>
                   <h4><a href="recipe-details.php?id=' . $idRecetas[$i] . '">' . $datosReceta[0]["titulo"] . '</a></h4>
@@ -148,6 +145,7 @@
                     <li>Proteínas: <span>' . $datosReceta[0]["proteinas"] . '</span></li>
                     <li>Grasas: <span>' . $datosReceta[0]["grasas"] . '</span></li>
                     <li>Calorías: <span>' . $datosReceta[0]["calorias"] . '</span></li>
+                    <li>Carbohidratos: <span>' . $datosReceta[0]["carbohidratos"] . '</span></li>
                   </ul>
                   <div class="main-button">
                     <a href="recipe-details.php?id=' . $idRecetas[$i] . '">Más información: </a>
