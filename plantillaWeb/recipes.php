@@ -37,6 +37,66 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
     />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#query').keyup(function() {
+                var query = $(this).val();
+                if (query != '') {
+                    $.ajax({
+                        url: "../frontOffice/searchQuery.php",
+                        method: "POST",
+                        data: {query: query},
+                        success: function(data) {
+                            $('#result').html(data);
+                        }
+                    });
+                } else {
+                    $('#result').html('');
+                }
+            });
+        });
+        $(document).ready(function() {
+          $('#search').click(function() {
+              var query = $('#query').val();
+              if (query != '') {
+                  $.ajax({
+                      url: "../frontOffice/searchQuery.php",
+                      method: "POST",
+                      data: {querySearch: query},
+                      success: function(data) {
+                        try {
+                          $('#result').html(data);
+                            var json = JSON.parse(data);
+                            //$('#result').html(json); // Mostrar los IDs en result (opcional)
+                            updateRecipeBlocks(json);
+                        } catch (e) {
+                            console.error("Failed to parse JSON: ", e);
+                            //$('#result').html('Error parsing response');
+                        }
+                      }
+                  });
+              }
+          });
+      });
+
+      function updateRecipeBlocks(idRecetas) {
+        $('.properties-box').empty();  // Limpia los bloques actuales de recetas
+          $.ajax({
+              url: '../frontOffice/getRecipeDetails.php',
+              method: 'POST',
+              dataType: 'html',
+              data: { id: idReceta },
+              success: function(recipeDetails) {
+                  $('.properties-box').append(recipeDetails);  // Añade la receta al contenedor
+              },
+              error: function(xhr, status, error) {
+                  console.error("Error al obtener los detalles de la receta: ", error);
+              }
+          });
+            }
+    </script>
   </head>
 
   <body>
@@ -121,39 +181,14 @@
 
     <div class="section properties">
       <div class="container">
+        <input id="query" type="text" placeholder="Search by food" value="">
         <ul class="properties-filter">
           <li>
-            <a class="is_active" href="#!" data-filter="*">Show All</a>
+            <button id="search" class="is_active" data-filter="*">Search</button>
           </li>
         </ul>
+        <div id="result"></div>
         <div class="row properties-box">
-          <?php
-            $finales = ["adv", "str", "adv rac", "str", "rac str", "rac adv", "rac str", "rac adv", "rac adv"];
-
-            for ($i=0; $i<9; $i++) {
-              $datosReceta = obtenerDatosReceta($idRecetas[$i]);
-
-              echo '<div
-                class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 ' . $finales[$i] . '">
-                <div class="item">
-                  <a href="recipe-details.php?id=' . $idRecetas[$i] . '">
-                  <img src="' . $datosReceta[0]["imagen"] . '" alt="" width=350px height=260px></a>
-                  <span class="category">' . $datosReceta[0]["comida"] . '</span>
-                  <h6>' . $datosReceta[0]["minutos"] . ' min</h6>
-                  <h4><a href="recipe-details.php?id=' . $idRecetas[$i] . '">' . $datosReceta[0]["titulo"] . '</a></h4>
-                  <ul>
-                    <li>Proteínas: <span>' . $datosReceta[0]["proteinas"] . '</span></li>
-                    <li>Grasas: <span>' . $datosReceta[0]["grasas"] . '</span></li>
-                    <li>Calorías: <span>' . $datosReceta[0]["calorias"] . '</span></li>
-                    <li>Carbohidratos: <span>' . $datosReceta[0]["carbohidratos"] . '</span></li>
-                  </ul>
-                  <div class="main-button">
-                    <a href="recipe-details.php?id=' . $idRecetas[$i] . '">Más información: </a>
-                  </div>
-                </div>
-              </div>';
-            }
-          ?>
         </div>
         <div class="row">
           <div class="col-lg-12">

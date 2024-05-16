@@ -1497,8 +1497,31 @@ Properties Style
   transition: all 0.3s;
 }
 
+.properties ul.properties-filter li button {
+  display: inline-block;
+  text-align: center;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #fff;
+  background-color: #1e1e1e;
+  padding: 12px 25px;
+  border-radius: 15px;
+  border: none;
+  transition: all 0.3s;
+}
+
 .properties ul.properties-filter li a.is_active {
   background-color: #f35525;
+  color: #fff;
+}
+
+.properties ul.properties-filter li button.is_active {
+  background-color: #f35525;
+  color: #fff;
+}
+
+.properties ul.properties-filter li button.is_active:hover {
   color: #fff;
 }
 
@@ -1506,8 +1529,34 @@ Properties Style
   color: #fff;
 }
 
+.properties ul.properties-filter li button:hover {
+  color: #f35525;
+}
+
 .properties ul.properties-filter li a:hover {
   color: #f35525;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  z-index: 1000;
+  cursor: default;
+  padding: 0;
+  margin-top: 2px;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+  padding: 10px 20px;
+}
+.ui-autocomplete > li:hover {
+  background-color: #f4f4f4;
+}
+.ui-autocomplete > li.ui-state-focus {
+  background-color: #f4f4f4;
 }
 
 .properties ul.pagination {
@@ -1774,6 +1823,11 @@ body {
     margin: 0px 5px;
   }
   .properties ul.properties-filter li a {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .properties ul.properties-filter li button {
     font-size: 14px;
     padding: 10px 15px;
   }
