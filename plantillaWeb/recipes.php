@@ -128,11 +128,13 @@
         </ul>
         <div class="row properties-box">
           <?php
+            $finales = ["adv", "str", "adv rac", "str", "rac str", "rac adv", "rac str", "rac adv", "rac adv"];
+
             for ($i=0; $i<9; $i++) {
               $datosReceta = obtenerDatosReceta($idRecetas[$i]);
 
               echo '<div
-                class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv"
+                class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 ' . $finales[$i] . '"
               >
                 <div class="item">
                   <a href="recipe-details.php?id=' . $idRecetas[$i] . '"
