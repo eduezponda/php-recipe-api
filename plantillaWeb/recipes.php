@@ -134,8 +134,7 @@
               $datosReceta = obtenerDatosReceta($idRecetas[$i]);
 
               echo '<div
-                class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 ' . $finales[$i] . '"
-              >
+                class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 ' . $finales[$i] . '">
                 <div class="item">
                   <a href="recipe-details.php?id=' . $idRecetas[$i] . '"
                     ><img
@@ -147,7 +146,7 @@
                   <h4><a href="recipe-details.php?id=' . $idRecetas[$i] . '">' . $datosReceta[0]["titulo"] . '</a></h4>
                   <ul>
                     <li>Proteínas: <span>' . $datosReceta[0]["proteinas"] . '</span></li>
-                    <!-- ***** <li>Grasas: <span>' . $datosReceta[0]["grasas"] . '</span></li> ***** -->
+                    <li>Grasas: <span>' . $datosReceta[0]["grasas"] . '</span></li>
                     <li>Calorías: <span>' . $datosReceta[0]["calorias"] . '</span></li>
                   </ul>
                   <div class="main-button">
