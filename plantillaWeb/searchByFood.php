@@ -2,10 +2,6 @@
   require_once "../frontOffice/funcionalidadesAPI.php";
   session_start();
 
-  $idRecetas = [];
-  for ($i = 0; $i < 9; $i++) {
-    $idRecetas[] = seleccionarIdReceta();
-  }
 ?>
 
 <!DOCTYPE html>

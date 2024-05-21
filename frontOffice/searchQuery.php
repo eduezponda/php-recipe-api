@@ -44,4 +44,47 @@
         exit;
     }
 
+    if (isset($_POST['diet'])) {
+        $diet = $_POST['diet'] . '%';
+        $con = conexion();
+
+        $stmt = $con->prepare("SELECT DISTINCT dieta FROM final_diet WHERE dieta LIKE ?");
+        $stmt->bind_param("s", $diet);
+        $stmt->execute();
+        $result = $stmt->get_result();  
+
+        $data = array();
+
+        while ($row = $result->fetch_assoc()) {  
+            $data[] = $row['diet'];
+        }
+
+        echo json_encode($data);
+
+        $con->close();
+    }
+
+
+    if(isset($_POST['dietSearch'])){
+        $diet = $_POST['dietSearch'];
+        $con = conexion();
+
+        $stmt = $con->prepare("SELECT r.id FROM final_receta AS r JOIN final_dieta AS d ON r.id = d.id_receta WHERE d.dieta = ?");
+
+        $stmt->bind_param("s", $diet);
+        $stmt->execute();
+
+        $result = $stmt->get_result();  
+
+        $idRecetas = [];
+        while ($row = $result->fetch_assoc()) {
+            $idRecetas[] = $row['id']; 
+        }
+    
+        $con->close();
+
+        echo json_encode($idRecetas);
+        exit;
+    }
+
 ?>
