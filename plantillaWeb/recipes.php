@@ -73,7 +73,32 @@
                         data: { querySearch: query },
                         success: function(data) {
                             try {
-                                updateRecipeBlocks(data);
+                                updateRecipeBlocks(data, 0);
+                            } catch (e) {
+                                $('#result').html('Error parsing response');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('.pagination a').click(function(e) {
+                e.preventDefault();
+                var page = $(this).data('page');
+                var query = $('#query').val();
+                
+                if (query != '') {
+                    $('.pagination a').removeClass('is_active');
+                    $(this).addClass('is_active');
+
+                    $.ajax({
+                        url: "../frontOffice/searchQuery.php",
+                        method: "POST",
+                        dataType: 'json',
+                        data: { querySearch: query },
+                        success: function(data) {
+                            try {
+                                updateRecipeBlocks(data, page);
                             } catch (e) {
                                 $('#result').html('Error parsing response');
                             }
@@ -84,16 +109,16 @@
         });
 
         // Función para actualizar los bloques de recetas
-        function updateRecipeBlocks(idRecetas) {
+        function updateRecipeBlocks(idRecetas, page) {
             $('.properties-box').empty(); // Limpiar los bloques actuales de recetas
             
             // Iterar sobre los primeros 9 índices de idRecetas
-            for (var i = 0; i < 9 && i < idRecetas.length; i++) {
+            for (var i = page*9; i < (page+1)*9 && i < idRecetas.length; i++) {
                 $.ajax({
                     url: '../frontOffice/getRecipeDetails.php',
                     method: 'POST',
                     dataType: 'html',
-                    data: { id: idRecetas[i], index: i },
+                    data: { id: idRecetas[i], index: i-page*9 },
                     success: function(recipeDetails) {
                         $('.properties-box').append(recipeDetails);
                     },
@@ -120,7 +145,6 @@
       </div>
       <!-- ***** Preloader End ***** -->
 
-      <div class="container-main">
       <div class="sub-header">
         <div class="container">
           <div class="row">
@@ -188,28 +212,27 @@
       </div>
       
       
-        <div class="section properties">
-          <div class="container">
-            <div class="container-content">
-              <input id="query" type="text" placeholder="Search by food" value="">
-              <ul class="properties-filter">
-                <li>
-                  <button id="search" class="is_active" data-filter="*">Search</button>
-                </li>
+      <div class="section properties">
+        <div class="container">
+          <ul class="properties-filter">
+            <input id="query" type="text" placeholder="Search by food" value="">
+            <li>
+              <button id="search" class="is_active" data-filter="*">Search</button>
+            </li>
+          </ul>
+          <div id="result"></div>
+          <div class="row properties-box">
+          </div>
+          <div class=white>
+            <?php for ($i = 0; $i < 80; $i++) {echo "<br>";} ?>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul class="pagination">
+                <li><a class="is_active" href="#" data-page="0">1</a></li>
+                <li><a href="#" data-page="1">2</a></li>
+                <li><a href="#" data-page="2">3</a></li>
               </ul>
-              <div id="result"></div>
-              <div class="row properties-box">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <ul class="pagination">
-                  <li><a href="#">1</a></li>
-                  <li><a class="is_active" href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">>></a></li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>

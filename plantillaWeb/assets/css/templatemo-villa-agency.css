@@ -104,32 +104,6 @@ figcaption {
   height: 0;
 }
 
-/* Asegura que el contenedor principal ocupe toda la altura de la página */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Configura el contenedor principal como un flexbox */
-.container-main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Asegura que el contenido principal crezca para llenar el espacio disponible */
-.container-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Asegura que .properties-box ocupe el espacio disponible */
-.properties-box {
-  flex-grow: 1;
-}
-
 .clearfix {
   display: inline-block;
 }
@@ -1498,6 +1472,10 @@ Page Header Style
 Properties Style
 --------------------------------------------- 
 */
+
+#query {
+  justify-content: center;
+}
 
 .properties ul.properties-filter {
   list-style: none;
