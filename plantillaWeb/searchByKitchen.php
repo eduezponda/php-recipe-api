@@ -1,7 +1,6 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
   session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <title>Mazapan Company-Diet</title>
+    <title>Mazapan Company-Kitchen</title>
 
     <link rel="icon" href="assets/images/logoMazapan.png" type="image/png" />
 
@@ -43,13 +42,13 @@
     <script>
         $(document).ready(function() {
             // Configurar autocompletado
-            $('#diet').autocomplete({
+            $('#kitchen').autocomplete({
                 source: function(request, response) {
                     $.ajax({
                         url: "../frontOffice/searchQuery.php",
                         method: "POST",
                         dataType: 'json',
-                        data: { diet: request.term },
+                        data: { kitchen: request.term },
                         success: function(data) {
                             response(data);
                         }
@@ -60,13 +59,13 @@
 
             // Manejar la búsqueda de recetas
             $('#search').click(function() {
-                var diet = $('#diet').val();
-                if (diet != '') {
+                var kitchen = $('#kitchen').val();
+                if (kitchen != '') {
                     $.ajax({
                         url: "../frontOffice/searchQuery.php",
                         method: "POST",
                         dataType: 'json',
-                        data: { dietSearch: diet },
+                        data: { kitchenSearch: kitchen },
                         success: function(data) {
                             try {
                                 updateRecipeBlocks(data, 0);
@@ -83,9 +82,9 @@
             $('.pagination a').click(function(e) {
                 e.preventDefault();
                 var page = $(this).data('page');
-                var diet = $('#diet').val();
+                var kitchen = $('#kitchen').val();
                 
-                if (diet != '') {
+                if (kitchen != '') {
                     $('.pagination a').removeClass('is_active');
                     $(this).addClass('is_active');
 
@@ -93,7 +92,7 @@
                         url: "../frontOffice/searchQuery.php",
                         method: "POST",
                         dataType: 'json',
-                        data: { dietSearch: diet },
+                        data: { kitchenSearch: kitchen },
                         success: function(data) {
                             try {
                                 updateRecipeBlocks(data, page);
@@ -173,9 +172,9 @@
                 <!-- ***** Menu Start ***** -->
                 <ul class="nav">
                   <li><a href="home.php">Home</a></li>
-                  <li><a href="searchByFood.php">Search by Food</a></li>
-                  <li><a href="searchByDiet.php" class="is_active">Search by Diet</a></li>
-                  <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                  <li><a href="searchByFood.php ">Search by Food</a></li>
+                  <li><a href="searchByDiet.php">Search by Diet</a></li>
+                  <li><a href="searchByKitchen.php " class="active">Search by Kitchen</a></li>
                   <!-- ***** Add new Tab ***** -->
                   <?php 
                     if (isset($_SESSION['user_name'])) {
@@ -204,18 +203,17 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <span class="breadcrumb"><a href="#">Home</a> / Diet</span>
-              <h3>Diet</h3>
+              <span class="breadcrumb"><a href="#">Home</a> / Kitchen</span>
+              <h3>Kitchen</h3>
             </div>
           </div>
         </div>
       </div>
       
-      
       <div class="section properties">
         <div class="container">
           <ul class="properties-filter">
-            <input id="diet" type="text" placeholder="Search by diet" value="">
+            <input id="kitchen" type="text" placeholder="Search by kitchen" value="">
             <li>
               <button id="search" class="is_active" data-filter="*">Search</button>
             </li>

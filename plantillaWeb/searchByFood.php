@@ -17,7 +17,7 @@
       rel="stylesheet"
     />
 
-    <title>Mazapan Company-Recipe</title>
+    <title>Mazapan Company-Food</title>
 
     <link rel="icon" href="assets/images/logoMazapan.png" type="image/png" />
 
@@ -70,6 +70,8 @@
                         success: function(data) {
                             try {
                                 updateRecipeBlocks(data, 0);
+                                $('.pagination a').removeClass('is_active');
+                                $('.pagination a[data-page="0"]').addClass('is_active');
                             } catch (e) {
                                 $('#result').html('Error parsing response');
                             }
@@ -171,7 +173,9 @@
                 <!-- ***** Menu Start ***** -->
                 <ul class="nav">
                   <li><a href="home.php">Home</a></li>
-                  <li><a href="recipes.php" class="active">Recipes</a></li>
+                  <li><a href="searchByFood.php" class="is_active">Search by Food</a></li>
+                  <li><a href="searchByDiet.php">Search by Diet</a></li>
+                  <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
                   <!-- ***** Add new Tab ***** -->
                   <?php 
                     if (isset($_SESSION['user_name'])) {
@@ -200,8 +204,8 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <span class="breadcrumb"><a href="#">Home</a> / Recipe</span>
-              <h3>Recipe</h3>
+              <span class="breadcrumb"><a href="#">Home</a> / Food</span>
+              <h3>Food</h3>
             </div>
           </div>
         </div>

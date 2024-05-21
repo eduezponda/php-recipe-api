@@ -84,7 +84,9 @@
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="home.php" class="active">Home</a></li>
-                <li><a href="recipes.php">Recipes</a></li>
+                <li><a href="searchByFood.php">Search by Food</a></li>
+                <li><a href="searchByDiet.php">Search by Diet</a></li>
+                <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <?php 
                   if (isset($_SESSION['user_name'])) {

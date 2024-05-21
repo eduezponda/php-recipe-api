@@ -89,7 +89,9 @@
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="home.php">Home</a></li>
-                <li><a href="recipes.php">Recipes</a></li>
+                <li><a href="searchByFood.php">Search by Food</a></li>
+                <li><a href="searchByDiet.php">Search by Diet</a></li>
+                <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <li>
                   <a href='signUp.php?result=0'
