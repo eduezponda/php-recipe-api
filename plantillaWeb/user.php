@@ -73,7 +73,7 @@
               <?php
                 if ($isAdmin)
                 {
-                  echo '<a href="admin.php" class="logo"><h1>Mazapan</h1></a>';
+                  echo '<a href="../backOffice/PlantillaBackOffice/admin.php" class="logo"><h1>Mazapan</h1></a>';
                     
                 }
                 else
