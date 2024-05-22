@@ -173,7 +173,7 @@
 
                 if ($row['tipo'] === 'admin') {
                     $_SESSION['admin'] = true;
-                    header("Location: ../plantillaWeb/admin.php");
+                    header("Location: ../backOffice/PlantillaBackOffice/admin.php");
                     exit();
                 }
 

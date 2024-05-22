@@ -1,4 +1,22 @@
-<!doctype html>
+<?php
+    session_start();
+
+    if (!isset($_SESSION['admin'])) {
+        header("Location: ../../plantillaWeb/home.php");
+        exit();
+    }
+
+    if (isset($_GET['username'])){
+        $username = $_GET['username'];
+    }
+
+    $result = 0;
+
+    if (isset($_GET['result'])) {
+        $result = $_GET['result'];
+    }
+?>
+
 <html lang="en">
  
 <head>
@@ -34,29 +52,21 @@
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-header text-center"><a href="admin.php"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">Please enter the new user password.</span></div>
             <div class="card-body">
-                <form>
+                <form action="formularioCambiarContraseña.php" method="POST">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" id="username" name="newPassword" type="password" placeholder="New password...">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" id="password" name="verificateSamePassword" type="password" placeholder="Confirm password...">
                     </div>
-                    <div class="form-group">
-                        <label class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Remember Me</span>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <?php
+                        if($result==-1) {echo "<p style='color: red;'>Please review your accuracy</p>";}
+                    ?>
+                    <input name="username" value="<? echo $username; ?>" hidden>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Change</button>
                 </form>
-            </div>
-            <div class="card-footer bg-white p-0  ">
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Create An Account</a></div>
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Forgot Password</a>
-                </div>
             </div>
         </div>
     </div>

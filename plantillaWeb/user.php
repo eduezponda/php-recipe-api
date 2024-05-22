@@ -84,7 +84,7 @@
                           <li><a href="searchByFood.php">Search by Food</a></li>
                           <li><a href="searchByDiet.php">Search by Diet</a></li>
                           <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
-                          <li><a href="user.php"><i class="fa-solid fa-user"></i><?php echo $nombreUsuario ?></a></li>
+                          <li><a href="user.php"><i class="fa-solid fa-user"></i>' . $nombreUsuario . ' </a></li>
                          </ul>';
                 }
               ?>
