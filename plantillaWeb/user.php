@@ -3,10 +3,16 @@
     require_once '../frontOffice/funcionalidadesAPI.php';
 
     session_start();
+
+    $isAdmin = false;
     
     if (!isset($_SESSION['user_name'])) {
         header('Location: home.php');
         exit();
+    }
+
+    if (isset($_SESSION['admin'])) {
+        $isAdmin = true;
     }
 
     $result = 0;
@@ -21,8 +27,8 @@
     $nombreUsuario = $_SESSION['user_name'];
     $correoUsuario = $datosUsuario[0];
     $idiomaUsuario = $datosUsuario[1];
-    
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -64,22 +70,24 @@
           <div class="col-12">
             <nav class="main-nav">
               <!-- ***** Logo Start ***** -->
-              <a href="home.php" class="logo">
-                <h1>Mazapan</h1>
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">
-                <li><a href="home.php">Home</a></li>
-                <li><a href="searchByFood.php">Search by Food</a></li>
-                <li><a href="searchByDiet.php">Search by Diet</a></li>
-                <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
-                <!-- ***** Add new Tab ***** -->
-                <li>
-                    <a href='user.php'>
-                    <i class='fa-solid fa-user'></i><?php echo $nombreUsuario ?></a>
-                </li>
-              </ul>
+              <?php
+                if ($isAdmin)
+                {
+                  echo '<a href="admin.php" class="logo"><h1>Mazapan</h1></a>';
+                    
+                }
+                else
+                {
+                  echo ' <a href="home.php" class="logo"><h1>Mazapan</h1></a>
+                         <ul class="nav">
+                          <li><a href="home.php">Home</a></li>
+                          <li><a href="searchByFood.php">Search by Food</a></li>
+                          <li><a href="searchByDiet.php">Search by Diet</a></li>
+                          <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                          <li><a href="user.php"><i class="fa-solid fa-user"></i><?php echo $nombreUsuario ?></a></li>
+                         </ul>';
+                }
+              ?>
             </nav>
           </div>
         </div>
