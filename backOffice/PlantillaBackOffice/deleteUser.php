@@ -9,12 +9,6 @@
     if (isset($_GET['username'])){
         $username = $_GET['username'];
     }
-
-    $result = 0;
-
-    if (isset($_GET['result'])) {
-        $result = $_GET['result'];
-    }
 ?>
 
 <html lang="en">
@@ -54,20 +48,11 @@
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><a href="admin.php"><img class="logo-img" src="assets/images/mazapanTitle.png" alt="logo"></a><span class="splash-description">Please enter the new user password.</span></div>
+            <div class="card-header text-center"><a href="admin.php"><img class="logo-img" src="assets/images/mazapanTitle.png" alt="logo"></a><span class="splash-description">Confirm user delete</span></div>
             <div class="card-body">
-                <form action="formularioCambiarContraseña.php" method="POST">
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" name="newPassword" type="password" placeholder="New password...">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" name="verificateSamePassword" type="password" placeholder="Confirm password...">
-                    </div>
-                    <?php
-                        if($result==-1) {echo "<p style='color: red;'>Please review your accuracy</p>";}
-                    ?>
+                <form action="formularioeliminarUsuario.php" method="POST">
                     <input name="username" value="<? echo $username; ?>" hidden>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Change</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Delete</button>
                 </form>
             </div>
         </div>

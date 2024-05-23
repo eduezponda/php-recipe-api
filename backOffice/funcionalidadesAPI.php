@@ -1,5 +1,5 @@
 <?php
-    include_once '/var/www/html/Trabajo Final/basededatosAPI/basededatos.php';
+    include_once '../../basededatosAPI/basededatos.php';
 
     function obtenerUltimaFechaDeActualizacion(){
         $con = conexion();
@@ -21,58 +21,67 @@
         
         $resultado = $con->query($consulta);
 
-        $caloriasMedias = [];
         if ($row = $resultado->fetch_assoc()) {
-            $caloriasMedias[] = $row;
+            $caloriasMedias = $row['Calorias_Medias'];
         }
 
-        $consulta = "SELECT DISTINCT cocina FROM final_cocina;
-        ";
+        $consulta = "SELECT COUNT(*) AS Numero_Recetas FROM final_receta;";
+        
         $resultado = $con->query($consulta);
 
-        $tiposCocina = [];
-        while ($row = $resultado->fetch_assoc()) {
-            $tiposCocina[] = $row;
+        if ($row = $resultado->fetch_assoc()) {
+            $numeroRecetas = $row['Numero_Recetas'];
         }
 
-        $consulta = "SELECT DISTINCT dieta FROM final_dieta;
-        ";
+        $consulta = "SELECT COUNT(DISTINCT dieta) AS Numero_Dietas FROM final_dieta;";
+        
         $resultado = $con->query($consulta);
 
-        $tiposDieta = [];
-        while ($row = $resultado->fetch_assoc()) {
-            $tiposDieta[] = $row;
+        if ($row = $resultado->fetch_assoc()) {
+            $numeroDietas = $row['Numero_Dietas'];
         }
 
-        $consulta = "SELECT DISTINCT query FROM final_comida WHERE minutos BETWEEN 10 AND 30;
-        ";
+        $consulta = "SELECT COUNT(DISTINCT cocina) AS Numero_Cocinas FROM final_cocina;";
+        
         $resultado = $con->query($consulta);
 
-        $comidasConDuracionEntre10y30Minutos = [];
-        while ($row = $resultado->fetch_assoc()) {
-            $comidasConDuracionEntre10y30Minutos[] = $row;
+        if ($row = $resultado->fetch_assoc()) {
+            $numeroCocinas = $row['Numero_Cocinas'];
         }
 
         $consulta = "SELECT CAST(AVG(minutos) AS INT) AS Duracion_Media FROM final_comida;
         ";
         $resultado = $con->query($consulta);
 
-        $duracionMediaComidas = [];
 
         if ($row = $resultado->fetch_assoc()) {
-            $duracionMediaComidas[] = $row;
+            $duracionMediaComidas = $row['Duracion_Media'];
         }
 
-        $consulta = "SELECT ingrediente, COUNT(*) AS Cantidad
+        $consulta = "SELECT ingrediente, COUNT(*) AS cantidad
                      FROM final_ingrediente
                      GROUP BY ingrediente
-                     ORDER BY Cantidad DESC;
+                     ORDER BY Cantidad DESC
+                     LIMIT 15;
         ";
         $resultado = $con->query($consulta);
 
-        $cantidadVecesIngredientes = [];
+        $ingredientesMasUsados = [];
         while ($row = $resultado->fetch_assoc()) {
-            $cantidadVecesIngredientes[] = $row;
+            $ingredientesMasUsados[] = $row;
+        }
+
+        $consulta = "SELECT ingrediente, COUNT(*) AS cantidad
+                     FROM final_ingrediente
+                     GROUP BY ingrediente
+                     ORDER BY Cantidad ASC
+                     LIMIT 15;
+        ";
+        $resultado = $con->query($consulta);
+
+        $ingredientesMenosUsados = [];
+        while ($row = $resultado->fetch_assoc()) {
+            $ingredientesMenosUsados[] = $row;
         }
 
         $consulta = "SELECT c.cocina,
@@ -117,11 +126,12 @@
 
         return [
             'caloriasMedias' => $caloriasMedias,
-            'tiposCocina' => $tiposCocina,
-            'tiposDieta' => $tiposDieta,
-            'comidasConDuracionEntre10y30Minutos' => $comidasConDuracionEntre10y30Minutos,
+            'numeroRecetas' => $numeroRecetas,
+            'numeroCocinas' => $numeroCocinas,
+            'numeroDietas' => $numeroDietas,
             'duracionMediaComidas' => $duracionMediaComidas,
-            'cantidadVecesIngredientes' => $cantidadVecesIngredientes,
+            'ingredientesMasUsados' => $ingredientesMasUsados,
+            'ingredientesMenosUsados' => $ingredientesMenosUsados,
             'valorNutricionalyDuracionMediaPorCocina' => $valorNutricionalyDuracionMediaPorCocina,
             'valorNutricionalyDuracionMediaPorDieta' => $valorNutricionalyDuracionMediaPorDieta
         ];
