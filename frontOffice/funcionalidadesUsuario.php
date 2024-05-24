@@ -116,7 +116,7 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
 
     $pdf->SetFont('helvetica', '', 12);
 
-    $contenido = '<h1>Detalles de la Receta</h1>';
+    $contenido = '<br><br><h1>Detalles de la Receta</h1>';
     $contenido .= '<p><strong>Correo:</strong> ' . $correo . '</p>';
     $contenido .= '<p><strong>Idioma:</strong> ' . $idioma . '</p>';
     $contenido .= '<p><strong>Título:</strong> ' . $titulo . '</p>';
@@ -129,7 +129,7 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
     $contenido .= '<p><strong>Calorías:</strong> ' . $calorias . ' kcal</p>';
     $contenido .= '<p><strong>Colesterol:</strong> ' . $colesterol . ' mg</p>';
     $contenido .= '<p><strong>Azúcar:</strong> ' . $azucar . ' g</p>';
-    $contenido .= '<center><img src="' . $imagen . '" alt="Imagen de la receta" style="width:200px;height:150px;" /></center>';
+    $contenido .= '<center><img src="' . $imagen . '" alt="Imagen de la receta" style="width:180px;height:120px;" /></center>';
 
     $pdf->writeHTML($contenido, true, false, true, false, '');
 
