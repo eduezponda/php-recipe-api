@@ -1,5 +1,5 @@
 <?php
-    include '../funcionalidadesAdmin.php'; 
+    include_once 'funcionalidadesAdmin.php'; 
 
     session_start();
     
@@ -18,9 +18,9 @@
             exit();
         }
 
-        cambiarContrasena($username, $username, $newPassword);
+        cambiarContrasena($_SESSION['user_name'], $username, $newPassword);
     }
 
-    header('Location: admin.php');
+    header('Location: PlantillaBackOffice/admin.php');
     exit();
 ?>

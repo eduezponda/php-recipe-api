@@ -6,6 +6,7 @@
         exit();
     }
 
+    $username = "";
     if (isset($_GET['username'])){
         $username = $_GET['username'];
     }
@@ -50,8 +51,8 @@
         <div class="card ">
             <div class="card-header text-center"><a href="admin.php"><img class="logo-img" src="assets/images/mazapanTitle.png" alt="logo"></a><span class="splash-description">Confirm user delete</span></div>
             <div class="card-body">
-                <form action="formularioeliminarUsuario.php" method="POST">
-                    <input name="username" value="<? echo $username; ?>" hidden>
+                <form action="../formularioeliminarUsuario.php" method="POST">
+                    <input name="username" value="<?php echo $username; ?>" hidden>
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Delete</button>
                 </form>
             </div>

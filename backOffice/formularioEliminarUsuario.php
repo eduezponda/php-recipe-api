@@ -1,5 +1,5 @@
 <?php
-    include '../funcionalidadesAdmin.php'; 
+    include_once 'funcionalidadesAdmin.php'; 
 
     session_start();
     
@@ -11,9 +11,9 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST['username'];
 
-        eliminarUsuario($username)
+        eliminarUsuario($username);
     }
 
-    header('Location: admin.php');
+    header('Location: PlantillaBackOffice/admin.php');
     exit();
 ?>

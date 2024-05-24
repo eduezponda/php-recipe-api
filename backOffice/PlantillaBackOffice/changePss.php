@@ -6,6 +6,7 @@
         exit();
     }
 
+    $username = "";
     if (isset($_GET['username'])){
         $username = $_GET['username'];
     }
@@ -56,7 +57,7 @@
         <div class="card ">
             <div class="card-header text-center"><a href="admin.php"><img class="logo-img" src="assets/images/mazapanTitle.png" alt="logo"></a><span class="splash-description">Please enter the new user password.</span></div>
             <div class="card-body">
-                <form action="formularioCambiarContraseña.php" method="POST">
+                <form action="../formularioCambiarContraseña.php" method="POST">
                     <div class="form-group">
                         <input class="form-control form-control-lg" id="username" name="newPassword" type="password" placeholder="New password...">
                     </div>
@@ -66,7 +67,7 @@
                     <?php
                         if($result==-1) {echo "<p style='color: red;'>Please review your accuracy</p>";}
                     ?>
-                    <input name="username" value="<? echo $username; ?>" hidden>
+                    <input name="username" value="<?php echo $username; ?>" hidden>
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Change</button>
                 </form>
             </div>

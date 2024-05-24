@@ -95,6 +95,14 @@
         <div class="dashboard-wrapper">
             <div class="container-fluid  dashboard-content">
                 <div class="row">
+                    <div class="card" style="display: flex; justify-content: center; width: 100%;">
+                        <div class="card-body" style="display: flex; justify-content: center; width: 100%;">
+                            <a href="../formularioUpdateDDBB.php" class="btn btn-rounded btn-primary" style="flex: 1; margin: 0 250px;">UPDATE DATABASE</a>
+                            <a href="../formularioEmptyDDBB.php" class="btn btn-rounded btn-danger" style="flex: 1; margin: 0 250px;">EMPTY DATABASE</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Users List</h5>
@@ -133,7 +141,7 @@
                         <div class="section-block">
                             <h5 class="section-title">API Summary</h5>
                         </div>
-                        <div class="accrodion-regular">
+                        <div class="accrodion-regular" style="width: 100%;">
                             <div id="accordion3">
                                 <div class="card">
                                     <div class="card-header" id="headingOne">

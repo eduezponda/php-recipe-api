@@ -7,7 +7,7 @@
     
 	function eliminarUsuario($usuario){
 		$con = conexion();
-		$consulta = "DELETE FROM final_usuario WHERE nombreUsuario = ? AND tipo != 'admin'";
+		$consulta = "DELETE FROM final_usuario WHERE nombreUsuario = ?";
 		$stmt = $con->prepare($consulta);
 
 		if ($stmt) {
@@ -26,45 +26,40 @@
 	}
 
 	function cambiarContrasena($usuario, $usuarioCambiar, $nuevaContrasena){
-		$con = conexion();
-		$consulta = "UPDATE final_usuario SET passwordHash = ? WHERE nombreUsuario = ? AND nombreUsuario = ?";
-		$stmt = $con->prepare($consulta);
-		$passwordHash = password_hash($nuevaContrasena, PASSWORD_DEFAULT);
+        $con = conexion();
+        $consulta = "UPDATE final_usuario SET passwordHash = ? WHERE nombreUsuario = ? AND nombreUsuario = ?";
+        $stmt = $con->prepare($consulta);
+        $passwordHash = password_hash($nuevaContrasena, PASSWORD_DEFAULT);
 
-		$stmt->bind_param("sss", $passwordHash, $usuario, $usuarioCambiar);
-		$stmt->execute();
+        $stmt->bind_param("sss", $passwordHash, $usuario, $usuarioCambiar);
+        $stmt->execute();
 
-		if ($stmt->affected_rows > 0) {
-		    echo "Contraseña cambiada correctamente. <br>";
-		} else {
-		    $stmt = $con->prepare("SELECT tipo FROM final_usuario WHERE nombreUsuario = ?");
-		    $stmt->bind_param("s", $usuario);
-		    $stmt->execute();
-		    $tipoUsuario = $stmt->get_result();
+        if ($stmt->affected_rows <= 0) {
+            $stmt = $con->prepare("SELECT tipo FROM final_usuario WHERE nombreUsuario = ?");
+            $stmt->bind_param("s", $usuario);
+            $stmt->execute();
+            $tipoUsuario = $stmt->get_result();
 
-		    $row = $tipoUsuario->fetch_assoc();
-		    $tipoUsuario = $row['tipo'];
+            $row = $tipoUsuario->fetch_assoc();
+            $tipoUsuario = $row['tipo'];
 
-		    if($tipoUsuario == 'admin'){
-			$consulta = "UPDATE final_usuario SET passwordHash = ? WHERE nombreUsuario = ? ";
-			$stmt = $con->prepare($consulta);
-		
-			$stmt->bind_param("ss", $passwordHash, $usuarioCambiar);
-			$stmt->execute();
+            if($tipoUsuario == 'admin'){
+                $consulta = "UPDATE final_usuario SET passwordHash = ? WHERE nombreUsuario = ? ";
+                $stmt = $con->prepare($consulta);
+        
+                $stmt->bind_param("ss", $passwordHash, $usuarioCambiar);
+                $stmt->execute();
 
-			if ($stmt->affected_rows > 0) {
-			    echo "Contraseña cambiada correctamente. <br>";
-			} 
-			else{
-			    echo "Usuario no existe <br>";
-			}
-		    }
-		    else{
-			echo "Usuario no tiene permisos para cambiar la contraseña de otro usuario<br>";
-		    }
-		}
-		$stmt->close();
-	}
+                if ($stmt->affected_rows <= 0) {
+                    echo "Usuario no existe <br>";
+                } 
+            }
+            else{
+                echo "Usuario no tiene permisos para cambiar la contraseña de otro usuario<br>";
+            }
+        }
+        $stmt->close();
+    }
 	
 	function borrarDatosAPI(){
         borrarDatos();
