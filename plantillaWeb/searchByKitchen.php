@@ -214,17 +214,6 @@
       <div class="section properties">
         <div class="container">
           <ul class="properties-filter">
-          <?php
-            if (isset($_SESSION['user_name'])){
-                echo '<div class="export-pdf-container">
-                      <form id="export-pdf-form" action="exportPDF.php" method="POST">
-                          <input type="hidden" name="username" value="' . $_SESSION['user_name'] . '">
-                          <button type="submit" class="btn btn-primary">Exportar a PDF</button>
-                          </form>
-                      </div>';
-                for ($i = 0; $i < 3; $i++) {echo "<br>";}
-            }
-          ?>
             <input id="kitchen" type="text" placeholder="Search by kitchen" value="">
             <li>
               <button id="search" class="is_active" data-filter="*">Search</button>

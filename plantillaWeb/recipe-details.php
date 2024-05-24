@@ -19,6 +19,9 @@
   $datosReceta = obtenerDatosReceta($idReceta);
   $datosIngredientes = obtenerIngredientesReceta($idReceta);
   $datosCocinas = obtenerCocinasReceta($idReceta);
+
+  if ($idioma == "") {$resumen = $datosReceta[0]['resumen'];}
+  else {$resumen = getTranslateText($idioma, $datosReceta[0]['resumen']);}
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +53,26 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
     />
+    <script>
+        $(document).ready(function() {
+            $('#exportButton').click(function() {
+                $.ajax({
+                    url: "../frontOffice/exportPDF.php",
+                    method: "POST",
+                    data: { 
+                        datosReceta: <?php echo json_encode($datosReceta); ?>,
+                        resumen: <?php echo $resumen; ?>
+                    },
+                    success: function(response) {
+                        console.log("PDF exportado con éxito:", response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al exportar PDF:", error);
+                    }
+                });
+            });
+        });
+    </script>
   </head>
 
   <body>
@@ -135,7 +158,12 @@
         </div>
       </div>
     </div>
-
+    <?php
+        if (isset($_SESSION['user_name'])){
+            echo '<button id="exportButton">Exportar a PDF</button>';
+            for ($i = 0; $i < 3; $i++) {echo "<br>";}
+        }
+    ?>
     <div class="single-property section">
       <div class="container">
         <div class="row">
@@ -151,8 +179,7 @@
               <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h4>
               <p>
                 <?php if (!empty($datosReceta)) {
-                  if ($idioma == "") {echo $datosReceta[0]['resumen'];}
-                  else {echo getTranslateText($idioma, $datosReceta[0]['resumen']);}
+                  echo $resumen;
                 } ?>
               </p>
             </div>

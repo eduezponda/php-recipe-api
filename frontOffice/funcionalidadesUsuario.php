@@ -88,39 +88,55 @@
     }
     
 
-    function exportarInformacionPDF($nombreUsuario){
-        $informacionUsuario = verInformacionUsuario($nombreUsuario);
+function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resumen, $minutos, $carbohidratos,
+                                $proteinas, $grasas, $calorias, $colesterol, $azucar) {
+    $informacionUsuario = verInformacionUsuario($nombreUsuario);
 
-        if ($informacionUsuario !== false) {
-            list($correo, $idioma) = $informacionUsuario;
-        }
-
-        $pdf = new MYPDF($nombreUsuario, $correo, $idioma);
-
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor($nombreUsuario);
-        $pdf->SetTitle('Mazapan Corporate Info');
-        $pdf->SetSubject('Detalles del Usuario');
-
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        $pdf->AddPage();
-
-        /*
-        $pdf->SetFont('helvetica', '', 12);
-
-        $contenido = '<p><strong>Nombre de usuario:</strong> ' . "hamza" . '</p>';
-        $contenido .= '<p><strong>Correo:</strong> ' . "hamza@machete.com" . '</p>';
-        $contenido .= '<p><strong>Idioma:</strong> ' . "marroqui" . '</p>';
-        $pdf->writeHTML($contenido, true, false, true, false, '');
-        */
-
-        $pdf->Output('mazapanCorporateInfo.pdf', 'I');
+    if ($informacionUsuario !== false) {
+        list($correo, $idioma) = $informacionUsuario;
+    } else {
+        $correo = "N/A";
+        $idioma = "N/A";
     }
+
+    $pdf = new MYPDF($nombreUsuario, $correo, $idioma);
+
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor($nombreUsuario);
+    $pdf->SetTitle('Mazapan Corporate Info');
+    $pdf->SetSubject('Detalles del Usuario');
+
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    $pdf->AddPage();
+
+    $pdf->SetFont('helvetica', '', 12);
+
+    $contenido = '<h1>Detalles de la Receta</h1>';
+    $contenido .= '<p><strong>Nombre de usuario:</strong> ' . $nombreUsuario . '</p>';
+    $contenido .= '<p><strong>Correo:</strong> ' . $correo . '</p>';
+    $contenido .= '<p><strong>Idioma:</strong> ' . $idioma . '</p>';
+    $contenido .= '<p><strong>Título:</strong> ' . $titulo . '</p>';
+    $contenido .= '<p><strong>Comida:</strong> ' . $comida . '</p>';
+    $contenido .= '<p><strong>Tiempo de preparación:</strong> ' . $minutos . ' minutos</p>';
+    $contenido .= '<p><strong>Resumen:</strong> ' . $resumen . '</p>';
+    $contenido .= '<p><strong>Carbohidratos:</strong> ' . $carbohidratos . ' g</p>';
+    $contenido .= '<p><strong>Proteínas:</strong> ' . $proteinas . ' g</p>';
+    $contenido .= '<p><strong>Grasas:</strong> ' . $grasas . ' g</p>';
+    $contenido .= '<p><strong>Calorías:</strong> ' . $calorias . ' kcal</p>';
+    $contenido .= '<p><strong>Colesterol:</strong> ' . $colesterol . ' mg</p>';
+    $contenido .= '<p><strong>Azúcar:</strong> ' . $azucar . ' g</p>';
+    $contenido .= '<img src="' . $imagen . '" alt="Imagen de la receta" style="width:100%;height:auto;" />';
+
+    $pdf->writeHTML($contenido, true, false, true, false, '');
+
+    $pdf->Output('mazapanCorporateInfo.pdf', 'I');
+}
+
     
     function signUp($nombreUsuario, $correo, $language, $password){
         $con = conexion();

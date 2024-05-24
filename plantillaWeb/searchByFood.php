@@ -106,22 +106,17 @@
             });
         });
 
-        // Función para actualizar los bloques de recetas
         function updateRecipeBlocks(idRecetas, page) {
-            $('.properties-box').empty(); // Limpiar los bloques actuales de recetas
+            $('.properties-box').empty();
             
-            // Iterar sobre los primeros 9 índices de idRecetas
             for (var i = page*9; i < (page+1)*9 && i < idRecetas.length; i++) {
                 $.ajax({
                     url: '../frontOffice/getRecipeDetails.php',
                     method: 'POST',
                     dataType: 'html',
                     data: { id: idRecetas[i], index: i-page*9 },
-                    success: function(data) {
-                      var recipeDetails = $(data).filter('.properties-items').html();
-                      var inputsRecipe = $(data).not('.properties-items').html();
+                    success: function(recipeDetails) {
                       $('.properties-box').append(recipeDetails);
-                      $('#formulario').append(inputsRecipe);
                     },
                     error: function(xhr, status, error) {
                         console.error("Error al obtener los detalles de la receta: ", error);
@@ -224,11 +219,10 @@
                       <form id="export-pdf-form" action="exportPDF.php" method="POST">
                           <div id="formulario">
                           <input type="hidden" name="username" value="' . $_SESSION['user_name'] . '">
-                          <button type="submit" class="btn btn-primary">Exportar a PDF</button>
+                          <button type="submit" disabled class="btn btn-primary">Exportar a PDF</button>
                           </div>
-                          </form>
+                        </form>
                       </div>';
-                for ($i = 0; $i < 3; $i++) {echo "<br>";}
             }
           ?>
             <input id="query" type="text" placeholder="Search by food" value="">
