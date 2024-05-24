@@ -174,7 +174,7 @@
                 <ul class="nav">
                   <li><a href="home.php">Home</a></li>
                   <li><a href="searchByFood.php">Search by Food</a></li>
-                  <li><a href="searchByDiet.php" class="is_active">Search by Diet</a></li>
+                  <li><a href="searchByDiet.php" class="active">Search by Diet</a></li>
                   <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
                   <!-- ***** Add new Tab ***** -->
                   <?php 
