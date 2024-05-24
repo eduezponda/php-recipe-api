@@ -4,14 +4,10 @@
 
     class MYPDF extends TCPDF {
         public $usuario;
-        public $correo;
-        public $idioma;
 
-        public function __construct($usuario, $correo, $idioma, $orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false) {
+        public function __construct($usuario, $orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false) {
             parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskcache, $pdfa);
             $this->usuario = $usuario;
-            $this->correo = $correo;
-            $this->idioma = $idioma;
             define('K_PATH_IMAGES_', $_SERVER['DOCUMENT_ROOT'].'Trabajo Final/imagenes/');
         }
 
@@ -28,8 +24,6 @@
 
             $this->SetFont('helvetica', '', 10);
             $this->Cell(0, 10, 'Nombre: '.$this->usuario, 0, 1, 'L', 0, '', 0, false, 'T', 'M');
-            $this->Cell(0, 10, 'Correo: '.$this->correo, 0, 1, 'L', 0, '', 0, false, 'T', 'M');
-            $this->Cell(0, 10, 'Idioma: '.$this->idioma, 0, 1, 'L', 0, '', 0, false, 'T', 'M');
         }
 
         public function Footer() {

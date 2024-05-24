@@ -20,9 +20,12 @@
   $datosIngredientes = obtenerIngredientesReceta($idReceta);
   $datosCocinas = obtenerCocinasReceta($idReceta);
 
+  $resumen = "";
   if ($idioma == "") {$resumen = $datosReceta[0]['resumen'];}
   else {$resumen = getTranslateText($idioma, $datosReceta[0]['resumen']);}
+  
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,26 +56,6 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
     />
-    <script>
-        $(document).ready(function() {
-            $('#exportButton').click(function() {
-                $.ajax({
-                    url: "../frontOffice/exportPDF.php",
-                    method: "POST",
-                    data: { 
-                        datosReceta: <?php echo json_encode($datosReceta); ?>,
-                        resumen: <?php echo $resumen; ?>
-                    },
-                    success: function(response) {
-                        console.log("PDF exportado con éxito:", response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error al exportar PDF:", error);
-                    }
-                });
-            });
-        });
-    </script>
   </head>
 
   <body>
@@ -160,7 +143,22 @@
     </div>
     <?php
         if (isset($_SESSION['user_name'])){
-            echo '<button id="exportButton">Exportar a PDF</button>';
+          echo '<div class="export-pdf-container">
+                <form id="export-pdf-form" action="../frontOffice/exportPDF.php" method="POST">
+                    <input type="hidden" name="resumen" value="' . $resumen . '">
+                    <input type="hidden" name="titulo" value="' . $datosReceta[0]['titulo'] . '">
+                    <input type="hidden" name="comida" value="' . $datosReceta[0]['comida'] . '">
+                    <input type="hidden" name="imagen" value="' . $datosReceta[0]['imagen'] . '">
+                    <input type="hidden" name="minutos" value="' . $datosReceta[0]['minutos'] . '">
+                    <input type="hidden" name="carbohidratos" value="' . $datosReceta[0]['carbohidratos'] . '">
+                    <input type="hidden" name="proteinas" value="' . $datosReceta[0]['proteinas'] . '">
+                    <input type="hidden" name="grasas" value="' . $datosReceta[0]['grasas'] . '">
+                    <input type="hidden" name="calorias" value="' . $datosReceta[0]['calorias'] . '">
+                    <input type="hidden" name="colesterol" value="' . $datosReceta[0]['colesterol'] . '">
+                    <input type="hidden" name="azucar" value="' . $datosReceta[0]['azucar'] . '">
+                    <button type="submit" class="btn btn-primary">Exportar a PDF</button>
+                </form>
+            </div>';
             for ($i = 0; $i < 3; $i++) {echo "<br>";}
         }
     ?>
@@ -178,9 +176,11 @@
               <span class="category"><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?></span>
               <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h4>
               <p>
-                <?php if (!empty($datosReceta)) {
-                  echo $resumen;
-                } ?>
+                <?php
+                  if (!empty($datosReceta)) {
+                    echo $resumen;
+                  } 
+                ?>
               </p>
             </div>
             <div class="accordion" id="accordionExample">

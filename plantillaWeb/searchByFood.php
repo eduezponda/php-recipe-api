@@ -213,18 +213,6 @@
       <div class="section properties">
         <div class="container">
           <ul class="properties-filter">
-          <?php
-            if (isset($_SESSION['user_name'])){
-                echo '<div class="export-pdf-container">
-                      <form id="export-pdf-form" action="exportPDF.php" method="POST">
-                          <div id="formulario">
-                          <input type="hidden" name="username" value="' . $_SESSION['user_name'] . '">
-                          <button type="submit" disabled class="btn btn-primary">Exportar a PDF</button>
-                          </div>
-                        </form>
-                      </div>';
-            }
-          ?>
             <input id="query" type="text" placeholder="Search by food" value="">
             <li>
               <button id="search" class="is_active" data-filter="*">Search</button>
