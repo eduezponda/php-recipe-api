@@ -56,6 +56,14 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
     />
+    <style>
+      .export-pdf-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+      }
+  </style>
+
   </head>
 
   <body>
@@ -159,7 +167,6 @@
                     <button type="submit" class="btn btn-primary">Exportar a PDF</button>
                 </form>
             </div>';
-            for ($i = 0; $i < 3; $i++) {echo "<br>";}
         }
     ?>
     <div class="single-property section">
