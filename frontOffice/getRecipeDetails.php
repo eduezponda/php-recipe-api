@@ -27,6 +27,16 @@
                 </div>
             </div>
         </div>';
+
+        echo '<input type="hidden" name="idReceta" value="' . $idReceta . '">
+              <input type="hidden" name="comida" value="' . $datosReceta[0]["comida"] . '">
+              <input type="hidden" name="minutos" value="' . $datosReceta[0]["minutos"] . '">
+              <input type="hidden" name="titulo" value="' . $datosReceta[0]["titulo"] . '">
+              <input type="hidden" name="proteinas" value="' . $datosReceta[0]["proteinas"] . '">
+              <input type="hidden" name="grasas" value="' . $datosReceta[0]["grasas"] . '">
+              <input type="hidden" name="calorias" value="' . $datosReceta[0]["calorias"] . '">
+              <input type="hidden" name="carbohidratos" value="' . $datosReceta[0]["carbohidratos"] . '">
+        ';
     }
 
 ?>

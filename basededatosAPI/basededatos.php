@@ -1,15 +1,15 @@
 <?php
 	
 	function conexion () {
-		// $servidor = "dbserver";
-		// $user = "grupo08";
-		// $password = "fai8eXooch";
-		// $bd = "db_grupo08";
+		$servidor = "dbserver";
+		$user = "grupo08";
+		$password = "fai8eXooch";
+		$bd = "db_grupo08";
 
-		$servidor = "localhost";
-		$user = "root";
-		$password = "";
-		$bd = "db_grupo08_local";
+		// $servidor = "localhost";
+		// $user = "root";
+		// $password = "";
+		// $bd = "db_grupo08_local";
 
 		$con = mysqli_connect($servidor, $user, $password, $bd);
 
