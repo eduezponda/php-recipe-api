@@ -66,7 +66,7 @@
             <ul class="info">
               <li><i class="fa fa-envelope"></i> mazapan@company.com</li>
               <li>
-                <i class="fa-regular fa-calendar"></i> Última actualización:
+                <i class="fa-regular fa-calendar"></i> Last update:
                 <?php echo obtenerUltimaFechaDeActualizacion(); ?>
               </li>
             </ul>

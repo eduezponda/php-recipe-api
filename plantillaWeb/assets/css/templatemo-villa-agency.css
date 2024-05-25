@@ -500,6 +500,7 @@ Header Style
 }
 
 .header-area .main-nav .nav li:last-child {
+  height: 100px;
   padding-right: 0px;
 }
 
@@ -694,6 +695,7 @@ Header Style
     border-radius: 0px 0px 25px 25px;
     width: 100%;
   }
+
   .background-header .main-nav .nav,
   .header-area .main-nav .nav {
     background-color: #fff;

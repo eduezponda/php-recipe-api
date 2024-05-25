@@ -61,7 +61,7 @@
             <ul class="info">
               <li><i class="fa fa-envelope"></i> mazapan@company.com</li>
               <li>
-                <i class="fa-regular fa-calendar"></i> Última actualización:
+                <i class="fa-regular fa-calendar"></i> Last update:
                 <?php echo obtenerUltimaFechaDeActualizacion(); ?>
               </li>
             </ul>
@@ -84,9 +84,9 @@
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="home.php" class="active">Home</a></li>
-                <li><a href="searchByFood.php">Search by Food</a></li>
-                <li><a href="searchByDiet.php">Search by Diet</a></li>
-                <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                <li><a href="searchByFood.php">Food</a></li>
+                <li><a href="searchByDiet.php">Diet</a></li>
+                <li><a href="searchByKitchen.php">Kitchen</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <?php 
                   if (isset($_SESSION['user_name'])) {
@@ -151,7 +151,7 @@
           </div>
           <div class="col-lg-5">
             <div class="section-heading">
-              <h6>| Más popular hoy</h6>
+              <h6>| Most popular today</h6>
               <h2><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h2>
             </div>
             <div class="accordion" id="accordionExample">
@@ -165,7 +165,7 @@
                     aria-expanded="true"
                     aria-controls="collapseOne"
                   >
-                    Información nutricional
+                    Nutritional information
                   </button>
                 </h2>
                 <div
@@ -177,12 +177,12 @@
                   <div class="accordion-body">
                     <?php
                       if (!empty($datosReceta)) {
-                        echo "Cantidad carbohidratos: " . $datosReceta[0]['carbohidratos'] . "</br>";
-                        echo "Cantidad proteinas: " . $datosReceta[0]['proteinas'] . "</br>";
-                        echo "Cantidad grasas: " . $datosReceta[0]['grasas'] . "</br>";
-                        echo "Cantidad calorias: " . $datosReceta[0]['calorias'] . "</br>";
-                        echo "Cantidad colesterol: " . $datosReceta[0]['colesterol'] . "</br>";
-                        echo "Cantidad azucar: " . $datosReceta[0]['azucar'] . "</br>";
+                        echo "Carbohydrate quantity: " . $datosReceta[0]['carbohidratos'] . "</br>";
+                        echo "Proteins quantity: " . $datosReceta[0]['proteinas'] . "</br>";
+                        echo "Fats quantity: " . $datosReceta[0]['grasas'] . "</br>";
+                        echo "Calories quantity: " . $datosReceta[0]['calorias'] . "</br>";
+                        echo "Cholesterol quantity: " . $datosReceta[0]['colesterol'] . "</br>";
+                        echo "Sugar quantity: " . $datosReceta[0]['azucar'] . "</br>";
                       }
                     ?>
                   </div>
@@ -198,7 +198,7 @@
                     aria-expanded="false"
                     aria-controls="collapseTwo"
                   >
-                    Ingredientes necesarios
+                    Ingredients needed
                   </button>
                 </h2>
                 <div
@@ -231,7 +231,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['comida'];} ?><br /><span>Comida base</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['comida'];} ?><br /><span>Base meal</span></h4>
                 </li>
                 <li>
                   <img
@@ -239,7 +239,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Tiempo preparación</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Preparation time</span></h4>
                 </li>
                 <li>
                   <img
@@ -257,7 +257,7 @@
                       }
                       echo substr($todas_cocinas, 2); 
                     }
-                  ?><br /><span>Tipo cocina</span></h4>
+                  ?><br /><span>Kitchen type</span></h4>
                 </li>
                 <li>
                   <img
@@ -274,7 +274,7 @@
                       }
                       echo substr($todas_dieta, 2); 
                     }
-                  ?><br /><span>Dieta compatible</span></h4>
+                  ?><br /><span>Compatible diet</span></h4>
                 </li>
               </ul>
             </div>

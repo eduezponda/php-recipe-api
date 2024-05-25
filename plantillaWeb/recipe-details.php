@@ -87,7 +87,7 @@
             <ul class="info">
               <li><i class="fa fa-envelope"></i> mazapan@company.com</li>
               <li>
-                <i class="fa-regular fa-calendar"></i> Última actualización:
+                <i class="fa-regular fa-calendar"></i> Last update:
                 <?php echo obtenerUltimaFechaDeActualizacion(); ?>
               </li>
             </ul>
@@ -110,9 +110,9 @@
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="home.php">Home</a></li>
-                <li><a href="searchByFood.php">Search by Food</a></li>
-                <li><a href="searchByDiet.php">Search by Diet</a></li>
-                <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                <li><a href="searchByFood.php">Food</a></li>
+                <li><a href="searchByDiet.php">Diet</a></li>
+                <li><a href="searchByKitchen.php">Kitchen</a></li>
                 <!-- ***** Add new Tab ***** -->
                 <?php 
                   if (isset($_SESSION['user_name'])) {
@@ -142,7 +142,7 @@
         <div class="row">
           <div class="col-lg-12">
             <span class="breadcrumb"
-              ><a href="#">Home</a> / Detalles receta</span
+              ><a href="#">Home</a> / Recipe details</span
             >
             <h3><?php if (!empty($datosReceta)) {echo $datosReceta[0]['titulo'];} ?></h3>
           </div>
@@ -201,7 +201,7 @@
                     aria-expanded="false"
                     aria-controls="collapseOne"
                   >
-                    Información nutricional
+                    Nutritional information
                   </button>
                 </h2>
                 <div
@@ -234,7 +234,7 @@
                     aria-expanded="false"
                     aria-controls="collapseTwo"
                   >
-                    Ingredientes necesarios
+                    Ingredients needed
                   </button>
                 </h2>
                 <div
@@ -265,7 +265,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['comida'];} ?><br /><span>Comida base</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['comida'];} ?><br /><span>Base meal</span></h4>
                 </li>
                 <li>
                   <img
@@ -273,7 +273,7 @@
                     alt=""
                     style="max-width: 52px"
                   />
-                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Tiempo de preparación</span></h4>
+                  <h4><?php if (!empty($datosReceta)) {echo $datosReceta[0]['minutos'] . 'min';} ?><br /><span>Preparation time</span></h4>
                 </li>
                 <li>
                   <img
@@ -291,7 +291,7 @@
                       }
                       echo substr($todas_cocinas, 2); 
                     }
-                  ?><br /><span>Tipo cocina</span></h4>
+                  ?><br /><span>Kitchen type</span></h4>
                 </li>
                 <li>
                   <img
@@ -308,7 +308,7 @@
                       }
                       echo substr($todas_dieta, 2); 
                     }
-                  ?><br /><span>Dieta compatible</span></h4>
+                  ?><br /><span>Compatible diet</span></h4>
                 </li>
               </ul>
             </div>

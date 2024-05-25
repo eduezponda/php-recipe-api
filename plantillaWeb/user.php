@@ -81,9 +81,9 @@
                   echo ' <a href="home.php" class="logo"><h1>Mazapan</h1></a>
                          <ul class="nav">
                           <li><a href="home.php">Home</a></li>
-                          <li><a href="searchByFood.php">Search by Food</a></li>
-                          <li><a href="searchByDiet.php">Search by Diet</a></li>
-                          <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                          <li><a href="searchByFood.php">Food</a></li>
+                          <li><a href="searchByDiet.php">Diet</a></li>
+                          <li><a href="searchByKitchen.php">Kitchen</a></li>
                           <li><a href="user.php"><i class="fa-solid fa-user"></i>' . $nombreUsuario . ' </a></li>
                          </ul>';
                 }
@@ -105,16 +105,16 @@
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">Configuración de perfil</h4>
+                        <h4 class="text-right">Configuration profile</h4>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">Nombre de usuario</label><p class="form-control" ><?php echo $nombreUsuario ?></p></div>
-                        <div class="col-md-12"><label class="labels">Correo</label><p class="form-control" ><?php echo $correoUsuario ?></p></div>
-                        <div class="col-md-12"><label class="labels">Idioma</label><p class="form-control" ><?php echo $idiomaUsuario ?></p></div>
+                        <div class="col-md-12"><label class="labels">Username</label><p class="form-control" ><?php echo $nombreUsuario ?></p></div>
+                        <div class="col-md-12"><label class="labels">Email</label><p class="form-control" ><?php echo $correoUsuario ?></p></div>
+                        <div class="col-md-12"><label class="labels">Language</label><p class="form-control" ><?php echo $idiomaUsuario ?></p></div>
                         <div class="col-md-12">
                             <form action="formularioCambiarIdioma.php" method="post">
                                 <input type="hidden" name="username" value="<?= $nombreUsuario?>">
-                                <label class="labels">Cambiar idioma</label>
+                                <label class="labels">Change language</label>
                                 <select class="form-control" name="language">
                                     <?php foreach ($idiomas as $idioma): ?>
                                         <option value="<?= $idioma['clave'] ?>" <?= $idioma['idioma'] == $idiomaUsuario ? 'selected' : '' ?>>
@@ -122,20 +122,20 @@
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
-                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Guardar idioma</button></div>
+                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save language</button></div>
                             </form>
                         </div>
                         <form action="formularioCambiarContrasena.php" method="post">
                             <input type="hidden" name="username" value="<?= $nombreUsuario?>">
                             <div class="col-md-12">
                                 <label class="labels">
-                                    Nueva contraseña
+                                    New password
                                 </label>
                                 <input type="password" class="form-control" name="newPassword"placeholder="New password..." value="">
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">
-                                    Confirmar contraseña
+                                    Confirm password
                                 </label>
                                 <input type="password" class="form-control" name="verificateSamePassword" placeholder="New password..." value="">
                             </div>
@@ -147,7 +147,7 @@
                                 ?>
                             <div class="mt-5 text-center">
                                 <button class="btn btn-primary profile-button" type="submit">
-                                    Guardar nueva contraseña
+                                    Save new password
                                 </button>
                             </div>
                         </form>

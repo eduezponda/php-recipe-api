@@ -150,7 +150,7 @@
               <ul class="info">
                 <li><i class="fa fa-envelope"></i> mazapan@company.com</li>
                 <li>
-                  <i class="fa-regular fa-calendar"></i> Última actualización:
+                  <i class="fa-regular fa-calendar"></i> Last update:
                   <?php echo obtenerUltimaFechaDeActualizacion(); ?>
                 </li>
               </ul>
@@ -173,9 +173,9 @@
                 <!-- ***** Menu Start ***** -->
                 <ul class="nav">
                   <li><a href="home.php">Home</a></li>
-                  <li><a href="searchByFood.php">Search by Food</a></li>
-                  <li><a href="searchByDiet.php" class="active">Search by Diet</a></li>
-                  <li><a href="searchByKitchen.php">Search by Kitchen</a></li>
+                  <li><a href="searchByFood.php">Food</a></li>
+                  <li><a href="searchByDiet.php" class="active">Diet</a></li>
+                  <li><a href="searchByKitchen.php">Kitchen</a></li>
                   <!-- ***** Add new Tab ***** -->
                   <?php 
                     if (isset($_SESSION['user_name'])) {
