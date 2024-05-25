@@ -115,24 +115,25 @@
       <div class="owl-carousel owl-banner">
         <div class="item item-1">
           <div class="header-text">
-            <span class="category">Toronto, <em>Canada</em></span>
-            <h2>Hurry!<br />Get the Best Villa for you</h2>
+            <span class="category"><em><a href="https://www.lostesorosdelconvento.com/">Monastery of San Clemente,</a> Toledo</em></span>
+            <h2>Hurry!<br />Enjoy the finest handmade marzipan</h2>
           </div>
         </div>
         <div class="item item-2">
           <div class="header-text">
-            <span class="category">Melbourne, <em>Australia</em></span>
-            <h2>Be Quick!<br />Get the best villa in town</h2>
+            <span class="category"><em><a href="https://pasteleriaplazamayor.es/categoria-producto/mazapanes/">Plaza Mayor Bakery,</a> Madrid</em></span>
+            <h2>Don't miss out!<br />Savor the most exquisite marzipan</h2>
           </div>
         </div>
         <div class="item item-3">
           <div class="header-text">
-            <span class="category">Miami, <em>South Florida</em></span>
-            <h2>Act Now!<br />Get the highest level penthouse</h2>
+            <span class="category"><em><a href="https://confiterialosangeles.com/productos/">Los Ángeles Bakery,</a> Seville</em></span>
+            <h2>Act now!<br />Taste the highest quality marzipan</h2>
           </div>
         </div>
       </div>
     </div>
+
 
     <div class="featured section">
       <div class="container">
