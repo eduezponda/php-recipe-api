@@ -1,5 +1,4 @@
 <?php
-
     require_once '../vendor/autoload.php';
 
     class MYPDF extends TCPDF {
@@ -18,7 +17,7 @@
             $this->Ln(5); 
 
             $this->SetFont('helvetica', 'I', 8);
-            $this->Cell(0, 10, 'Fecha: '.date('Y-m-d H:i:s'), 0, false, 'L', 0, '', 0, false, 'T', 'T');
+            $this->Cell(0, 10, "Fecha: ".date('Y-m-d H:i:s'), 0, false, 'L', 0, '', 0, false, 'T', 'T');
 
             $this->Ln(5); 
 

@@ -14,15 +14,15 @@
         return $row['ultima_fecha'];
     }
 
-    function verResumenDatosAPI (){
+    function verResumenDatosAPI(){
         $con = conexion();
 
-        $consulta = "SELECT CAST(AVG(calorias) AS INT) AS Calorias_Medias FROM final_requerimiento;";
+        $consulta = "SELECT AVG(calorias) AS Calorias_Medias FROM final_requerimiento;";
         
         $resultado = $con->query($consulta);
 
         if ($row = $resultado->fetch_assoc()) {
-            $caloriasMedias = $row['Calorias_Medias'];
+            $caloriasMedias = intval($row['Calorias_Medias']);
         }
 
         $consulta = "SELECT COUNT(*) AS Numero_Recetas FROM final_receta;";
@@ -49,13 +49,13 @@
             $numeroCocinas = $row['Numero_Cocinas'];
         }
 
-        $consulta = "SELECT CAST(AVG(minutos) AS INT) AS Duracion_Media FROM final_comida;
+        $consulta = "SELECT AVG(minutos) AS Duracion_Media FROM final_comida;
         ";
         $resultado = $con->query($consulta);
 
 
         if ($row = $resultado->fetch_assoc()) {
-            $duracionMediaComidas = $row['Duracion_Media'];
+            $duracionMediaComidas = intval($row['Duracion_Media']);
         }
 
         $consulta = "SELECT ingrediente, COUNT(*) AS cantidad

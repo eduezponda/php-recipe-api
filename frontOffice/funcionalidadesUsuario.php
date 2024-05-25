@@ -122,14 +122,22 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
     $contenido .= '<p><strong>Título:</strong> ' . $titulo . '</p>';
     $contenido .= '<p><strong>Comida:</strong> ' . $comida . '</p>';
     $contenido .= '<p><strong>Tiempo de preparación:</strong> ' . $minutos . ' minutos</p>';
-    $contenido .= '<p><strong>Resumen:</strong> ' . $resumen . '</p>';
+    $contenido .= '<p><strong>Resumen:</strong> ' . $resumen . '</p><br>';
+
+    $currentY = $pdf->GetY();
+    $imageHeight = 75;
+    $imageWidth = 100;
+    $imageX = ($pdf->getPageWidth() - 50) / 2;
+    $imageY = ($pdf->getPageHeight(false) + $currentY + 50) / 2;
+    $pdf->Image($imagen, $imageX, $imageY, $imageWidth, $imageHeight);
+    $pdf->SetY($currentY);
+
     $contenido .= '<p><strong>Carbohidratos:</strong> ' . $carbohidratos . ' g</p>';
     $contenido .= '<p><strong>Proteínas:</strong> ' . $proteinas . ' g</p>';
     $contenido .= '<p><strong>Grasas:</strong> ' . $grasas . ' g</p>';
     $contenido .= '<p><strong>Calorías:</strong> ' . $calorias . ' kcal</p>';
     $contenido .= '<p><strong>Colesterol:</strong> ' . $colesterol . ' mg</p>';
     $contenido .= '<p><strong>Azúcar:</strong> ' . $azucar . ' g</p>';
-    $contenido .= '<center><img src="' . $imagen . '" alt="Imagen de la receta" style="width:180px;height:120px;" /></center>';
 
     $pdf->writeHTML($contenido, true, false, true, false, '');
 
