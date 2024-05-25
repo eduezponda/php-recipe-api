@@ -58,53 +58,52 @@
                 minLength: 1
             });
 
-            // Manejar la búsqueda de recetas
-            $('#search').click(function() {
+            $('#search').click(function () {
                 var query = $('#query').val();
                 if (query != '') {
-                    $.ajax({
-                        url: "../frontOffice/searchQuery.php",
-                        method: "POST",
-                        dataType: 'json',
-                        data: { querySearch: query },
-                        success: function(data) {
-                            try {
-                                updateRecipeBlocks(data, 0);
-                                $('.pagination a').removeClass('is_active');
-                                $('.pagination a[data-page="0"]').addClass('is_active');
-                            } catch (e) {
-                                $('#result').html('Error parsing response');
-                            }
-                        }
-                    });
+                    searchRecipes(query, 0);
                 }
             });
 
-            $('.pagination a').click(function(e) {
+            $('.pagination').on('click', 'a', function (e) {
                 e.preventDefault();
                 var page = $(this).data('page');
                 var query = $('#query').val();
-                
                 if (query != '') {
-                    $('.pagination a').removeClass('is_active');
-                    $(this).addClass('is_active');
-
-                    $.ajax({
-                        url: "../frontOffice/searchQuery.php",
-                        method: "POST",
-                        dataType: 'json',
-                        data: { querySearch: query },
-                        success: function(data) {
-                            try {
-                                updateRecipeBlocks(data, page);
-                            } catch (e) {
-                                $('#result').html('Error parsing response');
-                            }
-                        }
-                    });
+                    if ($(this).hasClass('special')) {
+                        var lastPage = parseInt($('.pagination .special').data('page'));
+                        $(this).data('page', lastPage+1);
+                        searchRecipes(query, lastPage+1);
+                    } else {
+                        searchRecipes(query, page);
+                    }
                 }
             });
         });
+
+        function searchRecipes(query, page) {
+            $.ajax({
+                url: "../frontOffice/searchQuery.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    querySearch: query
+                },
+                success: function (data) {
+                    try {
+                        updateRecipeBlocks(data.data, page);
+                        updatePagination(page, data.totalPages);
+                      } catch (e) {
+                          console.error(e);
+                          $('#result').html('Error parsing response');
+                      }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX error:", status, error);
+                    $('#result').html('Error in AJAX request');
+                }
+            });
+        }
 
         function updateRecipeBlocks(idRecetas, page) {
             $('.properties-box').empty();
@@ -122,6 +121,38 @@
                         console.error("Error al obtener los detalles de la receta: ", error);
                     }
                 });
+            }
+        }
+
+        function updatePagination(currentPage, totalPages) {
+            var pagination = $('.pagination');
+            pagination.empty();
+            var maxPagesToShow = 3;
+
+            var startPage = 0;
+            var endPage = Math.min(totalPages - 1, startPage + maxPagesToShow - 1);
+
+            for (var i = startPage; i <= endPage; i++) {
+                var pageLink = $('<a href="#" data-page="' + i + '">' + (i + 1) + '</a>');
+                if (i === currentPage) {
+                    pageLink.addClass('is_active');
+                }
+                pagination.append($('<li></li>').append(pageLink));
+            }
+
+            if (endPage < totalPages - 1) {
+                var lastPageLink;
+                if (totalPages - 1 > currentPage) {
+                    lastPageLink = $('<a href="#" class="special" data-page="' + Math.min(totalPages - 1, currentPage) + '">>></a>');
+                    pagination.append($('<li></li>').append(lastPageLink));
+                }
+                else {
+                    lastPageLink = $('<a href="#" data-page="' + (totalPages - 1) + '">Last</a>');
+                    pagination.append($('<li></li>').append(lastPageLink));
+                }
+                if (currentPage >= maxPagesToShow){
+                    lastPageLink.addClass('is_active');
+                }
             }
         }
     </script>
@@ -228,8 +259,6 @@
             <div class="col-lg-12">
               <ul class="pagination">
                 <li><a class="is_active" href="#" data-page="0">1</a></li>
-                <li><a href="#" data-page="1">2</a></li>
-                <li><a href="#" data-page="2">3</a></li>
               </ul>
             </div>
           </div>
