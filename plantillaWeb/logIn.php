@@ -178,7 +178,7 @@
       <div class="container">
         <div class="col-lg-8 footer-content">
           <img
-            src="assets/images/logoMazapan.png"
+            src="assets/images/logoMazapanWhite.png"
             alt="Logo Mazapan"
             style="max-width: 80px"
           />
