@@ -25,18 +25,29 @@
             $datosDietas[] = $fila;
         }
 
-        $consulta = "SELECT cocina, COUNT(id_receta) AS cantidad_recetas FROM final_cocina GROUP BY cocina";
+        $consulta = "SELECT cocina, COUNT(id_receta) AS cantidad_recetas FROM final_cocina GROUP BY cocina HAVING COUNT(id_receta)>2";
         $resultado = $con->query($consulta);
         $datosCocinas = [];
         while ($fila = $resultado->fetch_assoc()) {
             $datosCocinas[] = $fila;
         }
 
-        $consulta = "SELECT c.minutos, r.$requerimiento
-                    FROM final_comida c
-                    JOIN final_receta rec ON c.id = rec.id_comida
-                    JOIN final_requerimiento r ON rec.id_requerimiento = r.id
-                    ORDER BY c.minutos";
+        if (strcmp($requerimiento, 'colesterol') !== 0 && strcmp($requerimiento, 'azucar') !== 0) {
+            $consulta = "SELECT r.$requerimiento, AVG(c.minutos) AS minutos
+                        FROM final_requerimiento r
+                        JOIN final_receta rec ON rec.id_requerimiento = r.id
+                        JOIN final_comida c ON c.id = rec.id_comida
+                        GROUP BY r.$requerimiento
+                        ORDER BY r.$requerimiento";
+        }
+        else {
+            $consulta = "SELECT co.$requerimiento, AVG(c.minutos) AS minutos
+                        FROM final_composicion co
+                        JOIN final_receta rec ON rec.id_composicion = co.id
+                        JOIN final_comida c ON c.id = rec.id_comida
+                        GROUP BY co.$requerimiento
+                        ORDER BY co.$requerimiento";
+        }
         $resultado = $con->query($consulta);
         $datosMinutos = [];
         while ($fila = $resultado->fetch_assoc()) {

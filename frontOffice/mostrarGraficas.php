@@ -1,6 +1,7 @@
 <?php
     include_once 'funcionalidadesAPI.php';
-    $requerimiento = "grasas";
+    $requerimiento = "colesterol";
+    /* Otros: carbohidratos, proteinas, grasas, calorias, azucar, colesterol */
     $datos = recogerDatosGraficasAPI($requerimiento);
 ?>
 
@@ -76,10 +77,10 @@
             var graficoMinutos = new Chart(ctxMinutos, {
                 type: 'line',
                 data: {
-                    labels: datosMinutos.map(c => `${c.minutos} min`),
+                    labels: datosMinutos.map(r => r.<?php echo $requerimiento; ?>),
                     datasets: [{
-                        label: 'Calorías por Tiempo de Preparación',
-                        data: datosMinutos.map(r => r.<?php echo $requerimiento; ?>),
+                        label: 'Tiempo de Preparación por valores de <?php echo $requerimiento; ?>',
+                        data: datosMinutos.map(c => c.minutos),
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1

@@ -95,6 +95,20 @@ figcaption {
   outline: 0;
 }
 
+/* CSS para centrar las graficas */
+.grafico-container {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  margin-top: 50px;
+}
+/* Fin de CSS añadido */
+
 .clearfix:after {
   content: ".";
   display: block;
