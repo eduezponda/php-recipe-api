@@ -1,17 +1,6 @@
 <?php
   require_once "../frontOffice/funcionalidadesAPI.php";
   session_start();
-
-  $g_value = 0;
-  if (isset($_GET['g'])) {$g_value = $_GET['g'];}
-
-  $list_requerimientos = ['colesterol', 'azucar', 'calorias', 'grasas', 'proteinas', 'carbohidratos'];
-  $requerimiento = $list_requerimientos[$g_value];
-
-  $datosGraficas=[];
-  if (isset($_SESSION['user_name'])) {
-      $datosGraficas = recogerDatosGraficasAPI($requerimiento);
-  }
 ?>
 
 <!DOCTYPE html>
@@ -148,7 +137,7 @@
     </div>
 
     <?php 
-        if (!empty($datosGraficas)) { ?>
+        if (isset($_SESSION['user_name'])) { ?>
 
             <div class="properties section">
               <div class="container">
@@ -173,22 +162,22 @@
                   <div class="nav-wrapper ">
                     <ul class="nav nav-tabs" role="tablist">
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value < 1) {echo "active";}?>" style="margin-top: 150px;" id="colesterol" href="home.php">Colesterol</a>
+                        <a class="nav-link active" style="margin-top: 150px;" data-value=0 id="colesterol" >Colesterol</a>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value == 1) {echo "active";}?>" style="margin-top: 150px;" id="azucar" href="home.php?g=1">Azucar</a>
+                        <a class="nav-link" style="margin-top: 150px;" data-value=1 id="azucar" >Azucar</a>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value == 2) {echo "active";}?>" style="margin-top: 150px;" id="calorias" href="home.php?g=2">Calorias</a>
+                        <a class="nav-link" style="margin-top: 150px;" data-value=2 id="calorias" >Calorias</a>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value == 3) {echo "active";}?>" style="margin-top: 150px;" id="grasas" href="home.php?g=3">Grasas</a>
+                        <a class="nav-link" style="margin-top: 150px;" data-value=3 id="grasas" >Grasas</a>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value == 4) {echo "active";}?>" style="margin-top: 150px;" id="proteinas" href="home.php?g=4">Proteinas</a>
+                        <a class="nav-link" style="margin-top: 150px;" data-value=4 id="proteinas" >Proteinas</a>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <a class="nav-link <?php if ($g_value > 4) {echo "active";}?>" style="margin-top: 150px;" id="carbohidratos" href="home.php?g=5">Carbohidratos</a>
+                        <a class="nav-link" style="margin-top: 150px;" data-value=5 id="carbohidratos" >Carbohidratos</a>
                       </li>
                     </ul>
                   </div>
@@ -199,85 +188,128 @@
               <canvas id="graficoMinutos"></canvas>
             </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var datosDietas = <?php echo json_encode($datosGraficas['dietas']); ?>;
-                    var datosCocinas = <?php echo json_encode($datosGraficas['cocinas']); ?>;
-                    var datosMinutos = <?php echo json_encode($datosGraficas['minutos']); ?>;
-        
-                    var ctxDietas = document.getElementById('graficoDietas').getContext('2d');
-                    var graficoDietas = new Chart(ctxDietas, {
-                        type: 'bar',
-                        data: {
-                            labels: datosDietas.map(d => d.dieta),
-                            datasets: [{
-                                label: 'Número de Recetas',
-                                data: datosDietas.map(d => d.cantidad_recetas),
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
+            
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        let graficoMinutos;
+
+        function obtenerDatosDietasYCocinasYMinutos() {
+            fetch(`obtenerDatosGraficas.php?index=0`)
+                .then(response => response.json())
+                .then(datosGraficas => {
+                    const datosDietas = datosGraficas['dietas'];
+                    const datosCocinas = datosGraficas['cocinas'];
+                    const datosMinutos = datosGraficas['minutos'];
+
+                    mostrarGraficoDietas(datosDietas);
+                    mostrarGraficoCocinas(datosCocinas);
+                    actualizarGraficoMinutos(datosMinutos, "colesterol");
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function mostrarGraficoDietas(datosDietas) {
+            const ctxDietas = document.getElementById('graficoDietas').getContext('2d');
+            const graficoDietas = new Chart(ctxDietas, {
+                type: 'bar',
+                data: {
+                    labels: datosDietas.map(d => d.dieta),
+                    datasets: [{
+                        label: 'Número de Recetas',
+                        data: datosDietas.map(d => d.cantidad_recetas),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
-                    });
-        
-                    var ctxCocinas = document.getElementById('graficoCocinas').getContext('2d');
-                    var graficoCocinas = new Chart(ctxCocinas, {
-                        type: 'pie',
-                        data: {
-                            labels: datosCocinas.map(c => c.cocina),
-                            datasets: [{
-                                data: datosCocinas.map(c => c.cantidad_recetas),
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
+                    }
+                }
+            });
+        }
+
+        function mostrarGraficoCocinas(datosCocinas) {
+            const ctxCocinas = document.getElementById('graficoCocinas').getContext('2d');
+            const graficoCocinas = new Chart(ctxCocinas, {
+                type: 'pie',
+                data: {
+                    labels: datosCocinas.map(c => c.cocina),
+                    datasets: [{
+                        data: datosCocinas.map(c => c.cantidad_recetas),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        obtenerDatosDietasYCocinasYMinutos();
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', event => {
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                event.target.classList.add('active');
+                const index = event.target.getAttribute('data-value');
+                const requerimiento = event.target.id;
+
+                fetch(`obtenerDatosGraficas.php?index=${index}`)
+                    .then(response => response.json())
+                    .then(datosGraficas => {
+                        const datosMinutos = datosGraficas['minutos'];
+                        actualizarGraficoMinutos(datosMinutos, requerimiento);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        });
+
+        function actualizarGraficoMinutos(datosMinutos, requerimiento) {
+            if (graficoMinutos) {
+                graficoMinutos.destroy();
+            }
+
+            const ctxMinutos = document.getElementById('graficoMinutos').getContext('2d');
+            graficoMinutos = new Chart(ctxMinutos, {
+                type: 'line',
+                data: {
+                    labels: datosMinutos.map(r => r[requerimiento]),
+                    datasets: [{
+                        label: `Tiempo de Preparación por valores de ${requerimiento}`,
+                        data: datosMinutos.map(c => c.minutos),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
-                    });
-        
-                    var ctxMinutos = document.getElementById('graficoMinutos').getContext('2d');
-                    var graficoMinutos = new Chart(ctxMinutos, {
-                        type: 'line',
-                        data: {
-                            labels: datosMinutos.map(r => r.<?php echo $requerimiento; ?>),
-                            datasets: [{
-                                label: 'Tiempo de Preparación por valores de <?php echo $requerimiento; ?>',
-                                data: datosMinutos.map(c => c.minutos),
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                });
-            </script>
+                    }
+                }
+            });
+        }
+      });
+    </script>
     <?php
         }
     ?>
