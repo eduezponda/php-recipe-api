@@ -117,19 +117,19 @@
       <div class="owl-carousel owl-banner">
         <div class="item item-1">
           <div class="header-text">
-            <span class="category"><em><a href="https://www.lostesorosdelconvento.com/">Monastery of San Clemente,</a> Toledo</em></span>
+            <span class="category"><em><a href="https://www.lostesorosdelconvento.com/" target="_blank">Monastery of San Clemente,</a> Toledo</em></span>
             <h2>Hurry!<br />Enjoy the finest handmade marzipan</h2>
           </div>
         </div>
         <div class="item item-2">
           <div class="header-text">
-            <span class="category"><em><a href="https://pasteleriaplazamayor.es/categoria-producto/mazapanes/">Plaza Mayor Bakery,</a> Madrid</em></span>
+            <span class="category"><em><a href="https://pasteleriaplazamayor.es/categoria-producto/mazapanes/" target="_blank">Plaza Mayor Bakery,</a> Madrid</em></span>
             <h2>Don't miss out!<br />Savor the most exquisite marzipan</h2>
           </div>
         </div>
         <div class="item item-3">
           <div class="header-text">
-            <span class="category"><em><a href="https://confiterialosangeles.com/productos/">Los Ángeles Bakery,</a> Seville</em></span>
+            <span class="category"><em><a href="https://confiterialosangeles.com/productos/" target="_blank">Los Ángeles Bakery,</a> Seville</em></span>
             <h2>Act now!<br />Taste the highest quality marzipan</h2>
           </div>
         </div>
