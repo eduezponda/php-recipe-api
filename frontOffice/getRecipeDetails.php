@@ -17,13 +17,13 @@
                 <h6>' . $datosReceta[0]["minutos"] . ' min</h6>
                 <h4><a href="recipe-details.php?id=' . $idReceta . '">' . $datosReceta[0]["titulo"] . '</a></h4>
                 <ul>
-                    <li>Proteínas: <span>' . $datosReceta[0]["proteinas"] . '</span></li>
-                    <li>Grasas: <span>' . $datosReceta[0]["grasas"] . '</span></li>
-                    <li>Calorías: <span>' . $datosReceta[0]["calorias"] . '</span></li>
-                    <li>Carbohidratos: <span>' . $datosReceta[0]["carbohidratos"] . '</span></li>
+                    <li>Proteins: <span>' . $datosReceta[0]["proteinas"] . '</span></li>
+                    <li>Fats: <span>' . $datosReceta[0]["grasas"] . '</span></li>
+                    <li>Calories: <span>' . $datosReceta[0]["calorias"] . '</span></li>
+                    <li>Carbohydrates: <span>' . $datosReceta[0]["carbohidratos"] . '</span></li>
                 </ul>
                 <div class="main-button">
-                    <a href="recipe-details.php?id=' . $idReceta . '">Más información: </a>
+                    <a href="recipe-details.php?id=' . $idReceta . '">More information: </a>
                 </div>
             </div>
         </div>';

@@ -152,7 +152,7 @@
     <?php
         if (isset($_SESSION['user_name'])){
           echo '<div class="export-pdf-container">
-                <form id="export-pdf-form" action="../frontOffice/exportPDF.php" method="POST">
+                <form id="export-pdf-form" action="../frontOffice/exportPDF.php" method="POST" target="_blank">
                     <input type="hidden" name="resumen" value="' . $resumen . '">
                     <input type="hidden" name="titulo" value="' . $datosReceta[0]['titulo'] . '">
                     <input type="hidden" name="comida" value="' . $datosReceta[0]['comida'] . '">
@@ -164,7 +164,7 @@
                     <input type="hidden" name="calorias" value="' . $datosReceta[0]['calorias'] . '">
                     <input type="hidden" name="colesterol" value="' . $datosReceta[0]['colesterol'] . '">
                     <input type="hidden" name="azucar" value="' . $datosReceta[0]['azucar'] . '">
-                    <button type="submit" class="btn btn-primary">Exportar a PDF</button>
+                    <button type="submit" class="btn btn-primary">Export to PDF</button>
                 </form>
             </div>';
         }
@@ -213,12 +213,12 @@
                   <div class="accordion-body">
                     <?php
                         if (!empty($datosReceta)) {
-                          echo "Cantidad carbohidratos: " . $datosReceta[0]['carbohidratos'] . "</br>";
-                          echo "Cantidad proteinas: " . $datosReceta[0]['proteinas'] . "</br>";
-                          echo "Cantidad grasas: " . $datosReceta[0]['grasas'] . "</br>";
-                          echo "Cantidad calorias: " . $datosReceta[0]['calorias'] . "</br>";
-                          echo "Cantidad colesterol: " . $datosReceta[0]['colesterol'] . "</br>";
-                          echo "Cantidad azucar: " . $datosReceta[0]['azucar'] . "</br>";
+                          echo "Amount of carbohydrates: " . $datosReceta[0]['carbohidratos'] . "</br>";
+                          echo "Amount of proteins: " . $datosReceta[0]['proteinas'] . "</br>";
+                          echo "Amount of fats: " . $datosReceta[0]['grasas'] . "</br>";
+                          echo "Amount of calories: " . $datosReceta[0]['calorias'] . "</br>";
+                          echo "Amount of cholesterol: " . $datosReceta[0]['colesterol'] . "</br>";
+                          echo "Amount of sugar: " . $datosReceta[0]['azucar'] . "</br>";    
                         }
                       ?>
                   </div>

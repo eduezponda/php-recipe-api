@@ -99,12 +99,12 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
         $idioma = "N/A";
     }
 
-    $pdf = new MYPDF($nombreUsuario);
+    $pdf = new MYPDF();
 
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor($nombreUsuario);
     $pdf->SetTitle('Mazapan Corporate Info');
-    $pdf->SetSubject('Detalles del Usuario');
+    $pdf->SetSubject('User details');
 
     $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
@@ -116,13 +116,14 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
 
     $pdf->SetFont('helvetica', '', 12);
 
-    $contenido = '<br><br><h1>Detalles de la Receta</h1>';
-    $contenido .= '<p><strong>Correo:</strong> ' . $correo . '</p>';
-    $contenido .= '<p><strong>Idioma:</strong> ' . $idioma . '</p>';
-    $contenido .= '<p><strong>Título:</strong> ' . $titulo . '</p>';
-    $contenido .= '<p><strong>Comida:</strong> ' . $comida . '</p>';
-    $contenido .= '<p><strong>Tiempo de preparación:</strong> ' . $minutos . ' minutos</p>';
-    $contenido .= '<p><strong>Resumen:</strong> ' . $resumen . '</p><br>';
+    $contenido = '<br><br><h1>Recipe details</h1>';
+    $contenido .= '<p><strong>Username:</strong> ' . $nombreUsuario . '</p>';
+    $contenido .= '<p><strong>Email:</strong> ' . $correo . '</p>';
+    $contenido .= '<p><strong>Language:</strong> ' . $idioma . '</p>';
+    $contenido .= '<p><strong>Title:</strong> ' . $titulo . '</p>';
+    $contenido .= '<p><strong>Meal:</strong> ' . $comida . '</p>';
+    $contenido .= '<p><strong>Preparation time:</strong> ' . $minutos . ' minutos</p>';
+    $contenido .= '<p><strong>Summary:</strong> ' . $resumen . '</p><br>';
 
     $currentY = $pdf->GetY();
     $imageHeight = 75;
@@ -132,12 +133,12 @@ function exportarInformacionPDF($nombreUsuario, $titulo, $comida, $imagen, $resu
     $pdf->Image($imagen, $imageX, $imageY, $imageWidth, $imageHeight);
     $pdf->SetY($currentY);
 
-    $contenido .= '<p><strong>Carbohidratos:</strong> ' . $carbohidratos . ' g</p>';
-    $contenido .= '<p><strong>Proteínas:</strong> ' . $proteinas . ' g</p>';
-    $contenido .= '<p><strong>Grasas:</strong> ' . $grasas . ' g</p>';
-    $contenido .= '<p><strong>Calorías:</strong> ' . $calorias . ' kcal</p>';
-    $contenido .= '<p><strong>Colesterol:</strong> ' . $colesterol . ' mg</p>';
-    $contenido .= '<p><strong>Azúcar:</strong> ' . $azucar . ' g</p>';
+    $contenido .= '<p><strong>Carbohydrates:</strong> ' . $carbohidratos . ' g</p>';
+    $contenido .= '<p><strong>Proteins:</strong> ' . $proteinas . ' g</p>';
+    $contenido .= '<p><strong>Fats:</strong> ' . $grasas . ' g</p>';
+    $contenido .= '<p><strong>Calories:</strong> ' . $calorias . ' kcal</p>';
+    $contenido .= '<p><strong>Cholesterol:</strong> ' . $colesterol . ' mg</p>';
+    $contenido .= '<p><strong>Sugar:</strong> ' . $azucar . ' g</p>';
 
     $pdf->writeHTML($contenido, true, false, true, false, '');
 
