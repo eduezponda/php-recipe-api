@@ -30,8 +30,8 @@ This project is a PHP-based web application that integrates a public recipe API 
 ## Setup and Installation
 1. **Clone the repository to your local machine:**
     ```sh
-    git clone [repository-url]
-    cd RecipeWebApp
+    git clone https://github.com/eduezponda/php-recipe-api.git
+    cd php-recipe-api
     ```
 2. **Set up the database with the required tables using the provided SQL scripts.**
 3. **Configure the database and API connections in the PHP scripts.**
